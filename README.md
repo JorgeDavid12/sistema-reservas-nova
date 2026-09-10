@@ -2,7 +2,7 @@
 
 Mini sistema CRUD de reservas desarrollado como práctica de pruebas unitarias manuales y aislamiento de lógica dentro de Aseguramiento de la Calidad de Software.
 
-**Estado actual:** Fase 0 completada. Entorno configurado con pnpm. Repositorio público publicado en [GitHub](https://github.com/JorgeDavid12/nova-booking-unit-testing), rama `main`. CRUD pendiente para Fase 1.
+**Estado actual:** Fase 1 completada. Entorno configurado con pnpm. Repositorio público publicado en [GitHub](https://github.com/JorgeDavid12/nova-booking-unit-testing), rama `main`. CRUD funcional completado. Unidad de validación pendiente para Fase 2.
 
 | Quiero... | Ir a |
 | --- | --- |
@@ -12,7 +12,7 @@ Mini sistema CRUD de reservas desarrollado como práctica de pruebas unitarias m
 | Entender qué se probará | [Unidad seleccionada](#6-unidad-seleccionada) |
 | Revisar el avance | [Bitácora por fases](#bitácora-de-desarrollo) |
 | Ejecutar el proyecto | [Ejecución local](#8-ejecución-local) |
-| Revisar estado actual | [Auditoría](#9-auditoría-de-fase-0) |
+| Revisar estado actual | [Auditoría de Fase 1](#auditoría-de-fase-1) |
 | Preparar el videotutorial | [Guion pendiente](GUION_VIDEO.md) |
 | Publicar el repositorio | [Git y GitHub](#10-git-y-github) |
 
@@ -20,9 +20,9 @@ Mini sistema CRUD de reservas desarrollado como práctica de pruebas unitarias m
 
 ## 1. Descripción general
 
-Nova Booking simula la gestión de reservas de espacios o salas universitarias. En las siguientes fases permitirá crear, consultar, editar y eliminar reservas, aplicando reglas de negocio antes de aceptar los datos.
+Nova Booking simula la gestión de reservas de espacios o salas universitarias. Permite crear, listar, editar, eliminar y cambiar el estado de reservas en memoria. Las reglas de negocio se incorporarán en la Fase 2.
 
-Actualmente muestra una pantalla temporal para comprobar el arranque y deja preparada la separación de módulos. Su objetivo académico es explicar y probar una unidad de validación sin depender de infraestructura externa.
+Actualmente ofrece tarjetas, contadores y un formulario compartido para crear y editar. Su objetivo académico posterior es explicar y probar una unidad de validación sin depender de infraestructura externa.
 
 ## 2. Objetivo académico
 
@@ -34,7 +34,7 @@ El proyecto permitirá demostrar:
 - Resultados esperados y obtenidos, comparados explícitamente.
 - Pruebas manuales sin base de datos ni APIs.
 
-Estas capacidades son objetivos futuros; la verificación de arranque de Fase 0 no equivale a pruebas unitarias de reglas todavía inexistentes.
+El CRUD está implementado; la lógica de validación y sus pruebas aisladas siguen siendo objetivos futuros. Las verificaciones de Fases 0 y 1 no equivalen a pruebas unitarias de reglas todavía inexistentes.
 
 ## 3. Stack tecnológico
 
@@ -43,7 +43,7 @@ Estas capacidades son objetivos futuros; la verificación de arranque de Fase 0 
 | Vite 8.3.0 | Desarrollo y compilación del frontend | Activo |
 | JavaScript modular | Entrada y futura lógica | Activo |
 | HTML | Estructura semántica | Activo |
-| CSS | Pantalla temporal oscura | Activo |
+| CSS | Interfaz CRUD oscura y responsive básico | Activo |
 | Node.js 24.19.0 | Herramientas locales de desarrollo | Disponible normalmente en el equipo |
 | pnpm 12.3.4 | Único gestor de paquetes | Instalación, desarrollo y build verificados |
 | Git 2.55.0.windows.3 | Versionado, rama `main` | Activo |
@@ -69,7 +69,8 @@ nova-booking/
 │   │   └── pruebaValidarReserva.js
 │   ├── ui/
 │   │   ├── interactions.js
-│   │   └── particles.js
+│   │   ├── particles.js
+│   │   └── reservasVista.js
 │   ├── main.js
 │   └── styles.css
 ├── index.html
@@ -85,50 +86,43 @@ nova-booking/
 
 `pnpm-workspace.yaml` conserva únicamente una excepción de antigüedad mínima para `vite@8.3.0`, necesaria con pnpm 12 durante esta migración para mantener la versión existente. No convierte la aplicación en un monorepo ni agrega dependencias.
 
-| Módulo | Responsabilidad prevista | Implementación en Fase 0 |
+| Módulo | Responsabilidad | Estado actual |
 | --- | --- | --- |
-| `crud/reservasCrud.js` | Operaciones sobre un array privado en memoria; invocar la validación antes de modificarlo | Comentarios y módulo vacío |
-| `validaciones/validarReserva.js` | Reglas puras de negocio, independientes del CRUD y la UI | Comentarios y módulo vacío |
-| `pruebas/pruebaValidarReserva.js` | Comparaciones manuales aisladas de resultados | Comentarios y módulo vacío |
-| `ui/` | Interacciones, partículas y efectos exclusivamente visuales | Comentarios y módulos vacíos |
-| `main.js` | Entrada y futura coordinación de módulos | Importa CSS y cambia el estado a «Operativo» |
-| `styles.css` | Presentación temporal | Estilos básicos sin animaciones |
+| `crud/reservasCrud.js` | Array privado, seis operaciones públicas y copias de salida | CRUD funcional sin DOM; validación de negocio pendiente |
+| `validaciones/validarReserva.js` | Reglas puras de negocio | Reservado, sin modificaciones |
+| `pruebas/pruebaValidarReserva.js` | Pruebas aisladas futuras | Reservado, sin modificaciones |
+| `ui/reservasVista.js` | Catálogo informativo de cuatro salas, tarjetas, selectores y contadores | Renderizado con datos recibidos por parámetro |
+| `ui/interactions.js`, `ui/particles.js` | Efectos visuales futuros | Reservados, sin modificaciones |
+| `main.js` | Eventos, formulario, confirmación y coordinación con CRUD | Consume únicamente las funciones públicas |
+| `styles.css` | Diseño oscuro, tarjetas, formularios y focus visible | Responsive básico |
+| `index.html` | Estructura semántica, resumen, estado vacío y diálogos | Interfaz funcional de Fase 1 |
 
-La validación no deberá conocer el DOM, modificar reservas, hacer solicitudes de red ni acceder a almacenamiento. El CRUD no deberá contener manipulación del DOM. La UI no deberá decidir reglas de negocio.
-
-Los módulos reservados no se importan en la pantalla inicial porque todavía no tienen comportamiento. Su carga independiente se comprobó desde Node.
+La validación no deberá conocer el DOM, modificar reservas, hacer solicitudes de red ni acceder a almacenamiento. El CRUD no manipula el DOM y la interfaz no tiene acceso directo al array privado. El catálogo es local, estático e informativo; su capacidad no rechaza reservas todavía.
 
 ## 5. Flujo conceptual
 
-Flujo previsto de la aplicación, todavía no implementado:
+Flujo actual implementado:
 
 ```text
-Interfaz
-   ↓
-CRUD
-   ↓
-validarReserva(reserva)
-   ↓
-Resultado
+Interfaz → funciones CRUD → array privado en memoria → renderizado actualizado
 ```
 
-Al crear o editar, el CRUD solo modificará el array si la validación permite la operación.
-
-Prueba aislada prevista:
+Flujo futuro de Fase 2:
 
 ```text
-Datos de prueba
-   ↓
-validarReserva(reserva)
-   ↓
-Resultado obtenido
-   ↓
-Comparación con resultado esperado
-   ↓
-PASS / FAIL
+Formulario → validarReserva() → CRUD → memoria
 ```
 
-La prueba llamará directamente a la función, sin pasar por el CRUD ni la interfaz.
+La integración deberá proteger las operaciones de creación y actualización antes de guardar, manteniendo las reglas únicamente en `validarReserva.js`. Actualmente no se importa ni ejecuta esa función.
+
+Prueba aislada futura:
+
+```text
+Datos de prueba → validarReserva() → resultado obtenido
+    → comparación con resultado esperado → PASS / FAIL
+```
+
+Estas pruebas no están implementadas; llamarán directamente a la función, sin pasar por el CRUD ni la interfaz.
 
 ## 6. Unidad seleccionada
 
@@ -142,15 +136,15 @@ Reglas previstas:
 - Cantidad válida de asistentes.
 - Capacidad de la sala.
 
-Los datos necesarios para validar deberán recibirse como entrada; la función no consultará un catálogo externo. En Fase 0 no existe una función ficticia que acepte todas las reservas: el archivo está preparado, pero la función aún no se exporta.
+Los datos necesarios para validar deberán recibirse como entrada; la función no consultará un catálogo externo. En Fase 1 no existe una función ficticia que acepte todas las reservas: el archivo está preparado, pero la función aún no se exporta.
 
 ## 7. Persistencia
 
-Nova Booking **NO utiliza base de datos**. Las reservas se manejarán mediante un array en memoria de JavaScript mientras la aplicación esté ejecutándose. Al recargar la página podrán desaparecer intencionalmente.
+Nova Booking **NO utiliza base de datos**. Las reservas se manejan mediante un array privado en memoria de JavaScript mientras la aplicación está ejecutándose. Al recargar la página desaparecen intencionalmente.
 
 No se utilizarán `localStorage`, `sessionStorage`, IndexedDB, archivos de datos, APIs ni servicios externos para persistir reservas. Esta decisión mantiene el alcance sencillo y permite demostrar el aislamiento de la unidad.
 
-En Fase 0 todavía no se crea ni modifica un array de reservas.
+La aplicación inicia vacía, sin datos demo precargados. Los registros ficticios utilizados para comprobar el CRUD no forman parte del código inicial.
 
 ## 8. Ejecución local
 
@@ -181,7 +175,7 @@ Si PowerShell bloquea el wrapper pnpm.ps1 por su política de ejecución, puede 
 | Fase | Estado | Objetivo | Resultado |
 | --- | --- | --- | --- |
 | Fase 0 | ✅ Completada | Preparación y arquitectura | Base preparada, pnpm configurado, arquitectura verificada y repositorio público publicado |
-| Fase 1 | ⏳ Pendiente | CRUD funcional | Pendiente |
+| Fase 1 | ✅ Completada | CRUD funcional | Crear, listar, editar, eliminar y cambiar estado en memoria; revisión funcional y responsive realizada |
 | Fase 2 | ⏳ Pendiente | Unidad de validación | Pendiente |
 | Fase 3 | ⏳ Pendiente | Sistema visual base | Pendiente |
 | Fase 4 | ⏳ Pendiente | Glassmorphism y figuras | Pendiente |
@@ -273,6 +267,107 @@ Fase 0 completada: entorno, pnpm, Git, GitHub y documentación preparados. Repos
 ### Próximo paso
 
 Únicamente cuando se autorice la Fase 1, definir el modelo de reserva e implementar crear, listar, editar y eliminar sobre un array en memoria, con una interfaz mínima. Preservar la frontera de `validarReserva(reserva)`; la implementación completa de sus reglas corresponde a la Fase 2.
+
+## Fase 1 — CRUD funcional
+
+### Objetivo
+
+Implementar el CRUD de reservas exclusivamente en memoria, con una interfaz sencilla y usable, conservando la arquitectura y sin adelantar las reglas de validación de Fase 2.
+
+### Cambios realizados
+
+- Array privado con operaciones públicas que devuelven copias y resultados controlados.
+- Tarjetas de reservas, contadores por estado y estado vacío con acción de creación.
+- Formulario compartido para crear/editar, con carga de datos y conservación del ID.
+- Cambio de estado desde la tarjeta o el formulario y confirmación sencilla antes de eliminar.
+- Catálogo estático: Aurora (20), Nova (35), Horizon (50) y Pulse (12). Capacidades informativas.
+- Diseño oscuro, labels, botones reales, focus visible y diálogos nativos HTML con scroll interior en móvil.
+
+### Modelo de reserva
+
+```js
+{
+  id: 'reserva-1',
+  solicitante: 'María López',
+  correo: 'maria@example.com',
+  sala: 'Sala Aurora',
+  fecha: '2026-09-15',
+  horaInicio: '14:00',
+  horaFin: '16:00',
+  asistentes: 12,
+  estado: 'Pendiente'
+}
+```
+
+Modelo plano: ID y demás campos textuales son strings; asistentes es number. Estados: Pendiente, Confirmada y Cancelada. Los IDs son consecutivos y únicos dentro de la sesión; no se reutilizan al eliminar. Reinician al recargar porque no hay persistencia.
+
+### Operaciones implementadas
+
+| Operación | Resultado |
+| --- | --- |
+| `obtenerReservas()` | Nuevo array con copias de cada reserva |
+| `obtenerReservaPorId(id)` | Copia o `null` si no existe |
+| `crearReserva(datos)` | Copia creada con ID nuevo; `null` ante contrato técnico incompatible |
+| `actualizarReserva(id, datos)` | Copia actualizada, mismo ID; `null` si no existe o el contrato es incompatible |
+| `eliminarReserva(id)` | `true` al eliminar; `false` si no existe |
+| `cambiarEstadoReserva(id, estado)` | Actualiza solo estado; copia o `null` ante ID/estado no admitido |
+
+Solo se copian los campos del modelo; campos ajenos e ID entrante no reemplazan el ID interno. Las comprobaciones de tipos escalares y del conjunto de estados protegen el contrato técnico y las copias: no validan correo, horarios, campos obligatorios, asistentes negativos ni capacidad.
+
+### Archivos creados/modificados
+
+Seis archivos: modificados `src/crud/reservasCrud.js`, `src/main.js`, `src/styles.css`, `index.html` y `README.md`; creado `src/ui/reservasVista.js` para separar el renderizado del almacenamiento. El catálogo informativo pequeño reside en ese módulo de interfaz.
+
+### Decisiones técnicas
+
+- Inicio vacío, sin reservas de demostración precargadas.
+- Copias superficiales suficientes porque el contrato admite únicamente valores escalares.
+- Sin dependencias nuevas; Vite, packageManager y lockfile permanecen sin cambios.
+- Formulario con tipos HTML apropiados y `novalidate`; sin `required`, mínimos ni comprobaciones académicas adelantadas. Los controles de fecha/hora siguen teniendo su representación nativa.
+- Asistentes se convierte con `Number`; un campo vacío resulta en 0 en esta fase. Su validez corresponde a Fase 2.
+- Renderizado mediante `textContent` para que las entradas se muestren como texto y no se interpreten como HTML.
+- Diálogo HTML pequeño de confirmación, con foco inicial en «Conservar reserva»; no se agregó infraestructura visual avanzada.
+
+### Pruebas manuales realizadas
+
+| Caso | Resultado observado |
+| --- | --- |
+| Crear | María López apareció con ID `reserva-1`, sala Aurora, horario 14:00–16:00 y 12 asistentes; total 1 y pendiente 1 |
+| Editar | Nombre, sala y asistentes cambiaron a María López editada, Nova y 18; se conservó `reserva-1` y total 1 |
+| Cambiar estado | Confirmada actualizó etiqueta y contadores: pendientes 0, confirmadas 1 |
+| Segunda reserva | Carlos Méndez en Pulse con 30 asistentes y Cancelada: total 2, confirmadas 1, canceladas 1; la capacidad informativa no bloqueó el alta |
+| Cancelar eliminación | «Conservar reserva» mantuvo el registro |
+| Eliminar selectivamente | Se eliminó «Reserva para eliminar» y permaneció «Reserva que permanece»; total pasó de 2 a 1 |
+| Eliminar última | Lista vacía y todos los contadores en 0, con botón de nueva reserva visible |
+| Recargar | Se creó «Temporal para recarga»; después de recargar había 0 tarjetas |
+| Contrato técnico desde Node | Copias protegidas, ID conservado, ID inexistente controlado, estado ajeno rechazado; ejecución puntual sin archivos de pruebas ni suite académica |
+| Responsive | Revisados 1280×720, 768×1024 y 375×812 sin overflow horizontal de documento; formulario móvil sin overflow horizontal interno y con scroll vertical accesible |
+| Consola | Sin errores ni advertencias registrados durante la revisión final |
+
+### Problemas encontrados
+
+La confirmación inicial con `window.confirm` causó una espera de la herramienta de navegador y no permitió verificar claramente su cancelación. Se sustituyó por un diálogo HTML sencillo y se comprobaron conservar, eliminar una reserva y eliminar la última. Se retiró también una restauración de foco redundante que interfería con el foco posterior al guardado; el diálogo conserva su comportamiento nativo al cancelar.
+
+### Estado final
+
+CRUD funcional completado. Sin backend, base de datos, red de aplicación ni almacenamiento persistente. Validación académica, pruebas unitarias y efectos visuales avanzados permanecen pendientes. Se preserva íntegra la bitácora detallada de Fase 0.
+
+### Próximo paso
+
+En Fase 2, definir el contrato e implementar `validarReserva(reserva)` de forma aislada; integrar su resultado antes de guardar sin duplicar reglas en el CRUD. No se continúa automáticamente.
+
+### Auditoría de Fase 1
+
+- [x] Crear, listar, editar, eliminar y cambiar estado funcionan.
+- [x] Contadores y estado vacío reflejan los registros actuales.
+- [x] Datos solo en memoria; recargar descarta cambios.
+- [x] Sin backend, base de datos, APIs, localStorage, sessionStorage ni IndexedDB.
+- [x] CRUD sin DOM y UI sin acceso directo al array privado.
+- [x] `validarReserva.js` y archivo de pruebas sin modificaciones; reglas de Fase 2 no adelantadas.
+- [x] Sin nuevas dependencias; pnpm-lock.yaml es el único lockfile y package-lock.json no existe.
+- [x] Instalación con pnpm y compilación verificadas.
+- [x] Revisión visual, responsive básico y consola realizados.
+- [x] README actualizado y bitácora anterior conservada.
 
 ## 9. Auditoría de Fase 0
 
