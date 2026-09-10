@@ -2,7 +2,7 @@
 
 Mini sistema CRUD de reservas desarrollado como práctica de pruebas unitarias manuales y aislamiento de lógica dentro de Aseguramiento de la Calidad de Software.
 
-**Estado actual:** Fase 2 completada. Entorno configurado con pnpm. Repositorio público publicado en [GitHub](https://github.com/JorgeDavid12/sistema-reservas-nova), rama `main`. CRUD funcional y unidad de validación integrada. Prueba manual formal pendiente para fases posteriores.
+**Estado actual:** Fase 3 completada. Sistema visual base con dashboard bento oscuro. Entorno configurado con pnpm. Repositorio público publicado en [GitHub](https://github.com/JorgeDavid12/sistema-reservas-nova), rama `main`. CRUD funcional y unidad de validación integrada. Prueba manual formal pendiente para fases posteriores.
 
 | Quiero... | Ir a |
 | --- | --- |
@@ -12,7 +12,7 @@ Mini sistema CRUD de reservas desarrollado como práctica de pruebas unitarias m
 | Entender qué se probará | [Unidad seleccionada](#6-unidad-seleccionada) |
 | Revisar el avance | [Bitácora por fases](#bitácora-de-desarrollo) |
 | Ejecutar el proyecto | [Ejecución local](#8-ejecución-local) |
-| Revisar estado actual | [Auditoría de Fase 2](#auditoría-de-fase-2) |
+| Revisar estado actual | [Revisión de Fase 3](#revisión-realizada) |
 | Preparar el videotutorial | [Guion pendiente](GUION_VIDEO.md) |
 | Publicar el repositorio | [Git y GitHub](#10-git-y-github) |
 
@@ -43,7 +43,7 @@ El CRUD y la unidad aislada están implementados. Se realizaron comprobaciones t
 | Vite 8.3.0 | Desarrollo y compilación del frontend | Activo |
 | JavaScript modular | Entrada y futura lógica | Activo |
 | HTML | Estructura semántica | Activo |
-| CSS | Interfaz CRUD oscura y responsive básico | Activo |
+| CSS | Sistema visual bento oscuro para laptop | Activo |
 | Node.js 24.19.0 | Herramientas locales de desarrollo | Disponible normalmente en el equipo |
 | pnpm 12.3.4 | Único gestor de paquetes | Instalación, desarrollo y build verificados |
 | Git 2.55.0.windows.3 | Versionado, rama `main` | Activo |
@@ -97,8 +97,8 @@ nova-booking/
 | `ui/reservasVista.js` | Tarjetas, selectores, contadores y mensajes de error | Renderizado con datos recibidos por parámetro |
 | `ui/interactions.js`, `ui/particles.js` | Efectos visuales futuros | Reservados, sin modificaciones |
 | `main.js` | Recoge datos, añade capacidad temporal y valida antes de Crear/Editar | Coordina validación, CRUD y presentación |
-| `styles.css` | Diseño oscuro, tarjetas, formularios y focus visible | Responsive básico |
-| `index.html` | Estructura semántica, resumen, estado vacío y diálogos | Formulario con validación JavaScript y `novalidate` |
+| `styles.css` | Variables visuales, bento, tarjetas compactas, controles, estados y foco | Base visual Fase 3; microinteracciones CSS |
+| `index.html` | Header con acción principal, resumen bento, estado vacío y diálogos | IDs, controles y validación conservados |
 
 La unidad no importa módulos ni conoce la interfaz o el CRUD. El catálogo está en `datos/salas.js`; main obtiene la capacidad y la entrega como contexto de entrada. La capacidad se aplica al validar y no se almacena. El CRUD conserva sus comprobaciones técnicas, sin duplicar reglas de negocio.
 
@@ -190,7 +190,7 @@ Si PowerShell bloquea el wrapper pnpm.ps1 por su política de ejecución, puede 
 | Fase 0 | ✅ Completada | Preparación y arquitectura | Base preparada, pnpm configurado, arquitectura verificada y repositorio público publicado |
 | Fase 1 | ✅ Completada | CRUD funcional | Crear, listar, editar, eliminar y cambiar estado en memoria; revisión funcional y responsive realizada |
 | Fase 2 | ✅ Completada | Unidad de validación | Función pura integrada en Crear/Editar; errores por campo y repositorio renombrado |
-| Fase 3 | ⏳ Pendiente | Sistema visual base | Pendiente |
+| Fase 3 | ✅ Completada | Sistema visual base | Identidad oscura, bento asimétrico, tarjetas y formularios unificados; revisión en laptop |
 | Fase 4 | ⏳ Pendiente | Glassmorphism y figuras | Pendiente |
 | Fase 5 | ⏳ Pendiente | Partículas e interacciones | Pendiente |
 | Fase 6 | ⏳ Pendiente | Validation Lab y pruebas | Pendiente |
@@ -474,6 +474,52 @@ Fase 3: sistema visual base para laptop. La suite manual formal, Validation Lab 
 - [x] Build correcto y revisión visual únicamente en laptop.
 - [x] README actualizado; historial de fases anteriores conservado.
 - [x] Repositorio renombrado, PUBLIC, origin y enlaces actualizados, historial conservado.
+
+## Fase 3 — Sistema visual base
+
+### Objetivo
+
+Rediseñar la identidad, composición y jerarquía del dashboard exclusivamente desde HTML y CSS, conservando toda la lógica implementada.
+
+### Nueva dirección visual
+
+Negro profundo y superficies oscuras, iluminación ambiental suave mediante degradados radiales. Violeta y azul en las acciones; verde/cian para confirmadas y magenta/rojo para canceladas y peligro. Los colores se concentran en luces, bordes y acentos. Tipografía local, sin recursos ni ilustraciones externas.
+
+### Cambios de layout
+
+Header con marca NOVA en degradado, subtítulo, indicador de memoria y botón Nueva reserva. Bento de tres columnas: total dominante a la izquierda, pendientes y canceladas apiladas al centro, confirmadas a la derecha. Debajo, reservas en tres columnas y estado vacío horizontal con símbolo abstracto CSS. Aviso de memoria visible en el pie.
+
+### Componentes rediseñados
+
+Botones primarios con degradado, secundarios discretos y peligrosos con acento rosado. Tarjetas compactas, badges por estado, inputs/selects uniformes, foco visible y mensajes de validación contrastados. Crear/Editar y confirmación de eliminación comparten superficies, radios, bordes y sombras. El formulario mantiene sus controles, labels, IDs y mensajes originales.
+
+### Archivos modificados
+
+Solo tres archivos: `index.html`, `src/styles.css` y `README.md`. Sin archivos nuevos, dependencias ni cambios en JavaScript, CRUD, validación, catálogo, persistencia o eventos.
+
+### Decisiones visuales
+
+Variables CSS para superficies, colores, bordes, radios y sombras. Decoraciones estáticas con función exclusivamente visual, sin gráficas ficticias. Transiciones breves de hover/foco y aparición del diálogo; se respeta la preferencia de movimiento reducido. Blur de 3 px únicamente en el fondo del diálogo. Sin partículas, canvas, parallax, tilt ni cristal avanzado. Se redujeron alturas y espacios tras la primera revisión para mejorar la densidad en laptop.
+
+### Revisión realizada
+
+- Navegador de escritorio: revisión inicial en el tamaño disponible y revisión final fijada en 1366×768; sin auditorías de teléfono/tablet.
+- Estado vacío y dashboard con tres reservas ficticias introducidas solo para la revisión, sin datos demo agregados al código.
+- Tres tarjetas por fila, con nombres, sala, fecha, horario, asistentes, estado y acciones visibles; sin overflow horizontal del documento.
+- Crear desde header, envío vacío con seis mensajes de validación y corrección para guardar.
+- Edición con correo inválido, error legible y guardado tras corregirlo; cambio de estado con contadores actualizados.
+- Confirmación de eliminación visible y opción Conservar reserva comprobada.
+- Formulario cómodo en dos columnas; scroll interior disponible cuando se acumulan mensajes.
+- Consola sin errores ni advertencias. Build con pnpm completado.
+- Diff revisado: archivos JavaScript sin modificaciones, incluidas funciones de renderizado e integración.
+
+### Estado final
+
+Fase 3 completada. Base visual coherente y lista para profundizar su acabado; lógica y bitácoras anteriores conservadas. No se implementó funcionalidad de fases posteriores.
+
+### Pendiente para Fase 4
+
+Cristal más evidente, profundidad, luces detrás del cristal y composición decorativa. Partículas y otras interacciones avanzadas permanecen para su fase correspondiente. No se avanzó automáticamente.
 
 ## 9. Auditoría de Fase 0
 
