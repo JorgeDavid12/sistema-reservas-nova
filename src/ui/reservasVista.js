@@ -1,16 +1,38 @@
-// Catálogo local informativo: la capacidad no rechaza reservas en Fase 1.
-export const SALAS = Object.freeze([
-  Object.freeze({ nombre: 'Sala Aurora', capacidad: 20 }),
-  Object.freeze({ nombre: 'Sala Nova', capacidad: 35 }),
-  Object.freeze({ nombre: 'Sala Horizon', capacidad: 50 }),
-  Object.freeze({ nombre: 'Sala Pulse', capacidad: 12 }),
-]);
-
 function elemento(tag, texto, clase) {
   const nodo = document.createElement(tag);
   if (texto !== undefined) nodo.textContent = texto;
   if (clase) nodo.className = clase;
   return nodo;
+}
+
+export function limpiarErrores(form) {
+  form.querySelectorAll('.field-error').forEach(nodo => nodo.remove());
+  form.querySelectorAll('[aria-invalid]').forEach(control => {
+    control.removeAttribute('aria-invalid');
+    const ids = (control.getAttribute('aria-describedby') || '').split(' ').filter(id => id && !id.startsWith('error-'));
+    if (ids.length) control.setAttribute('aria-describedby', ids.join(' '));
+    else control.removeAttribute('aria-describedby');
+  });
+  form.querySelector('#form-error').textContent = '';
+}
+
+export function mostrarErrores(form, errores, enfocar = false) {
+  limpiarErrores(form);
+  if (!errores.length) return;
+  form.querySelector('#form-error').textContent = `Revisa los datos: ${errores.length} problema(s) impiden guardar la reserva.`;
+  let primero;
+  for (const { campo, mensaje } of errores) {
+    const control = form.elements[campo === 'capacidadSala' ? 'sala' : campo];
+    if (!control) continue;
+    const aviso = elemento('small', mensaje, 'field-error');
+    aviso.id = `error-${campo}`;
+    control.setAttribute('aria-invalid', 'true');
+    const descripcion = control.getAttribute('aria-describedby');
+    control.setAttribute('aria-describedby', [descripcion, aviso.id].filter(Boolean).join(' '));
+    control.parentElement.append(aviso);
+    primero ??= control;
+  }
+  if (enfocar) primero?.focus();
 }
 
 export function llenarOpciones(select, valores) {

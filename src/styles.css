@@ -59,6 +59,8 @@ label { font-size: 0.88rem; }
 .field small { display: block; margin-top: 5px; }
 .form-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
 #form-error { color: #ffb3bb; margin-top: 12px; }
+.field-error { color: #ffb3bb; font-size: 0.8rem; }
+[aria-invalid="true"] { border-color: #ff9ca9; }
 @media (max-width: 950px) { .reservation-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) {
   .shell { padding: 0 18px; }

@@ -2,7 +2,7 @@
 
 Mini sistema CRUD de reservas desarrollado como práctica de pruebas unitarias manuales y aislamiento de lógica dentro de Aseguramiento de la Calidad de Software.
 
-**Estado actual:** Fase 1 completada. Entorno configurado con pnpm. Repositorio público publicado en [GitHub](https://github.com/JorgeDavid12/nova-booking-unit-testing), rama `main`. CRUD funcional completado. Unidad de validación pendiente para Fase 2.
+**Estado actual:** Fase 2 completada. Entorno configurado con pnpm. Repositorio público publicado en [GitHub](https://github.com/JorgeDavid12/sistema-reservas-nova), rama `main`. CRUD funcional y unidad de validación integrada. Prueba manual formal pendiente para fases posteriores.
 
 | Quiero... | Ir a |
 | --- | --- |
@@ -12,7 +12,7 @@ Mini sistema CRUD de reservas desarrollado como práctica de pruebas unitarias m
 | Entender qué se probará | [Unidad seleccionada](#6-unidad-seleccionada) |
 | Revisar el avance | [Bitácora por fases](#bitácora-de-desarrollo) |
 | Ejecutar el proyecto | [Ejecución local](#8-ejecución-local) |
-| Revisar estado actual | [Auditoría de Fase 1](#auditoría-de-fase-1) |
+| Revisar estado actual | [Auditoría de Fase 2](#auditoría-de-fase-2) |
 | Preparar el videotutorial | [Guion pendiente](GUION_VIDEO.md) |
 | Publicar el repositorio | [Git y GitHub](#10-git-y-github) |
 
@@ -20,7 +20,7 @@ Mini sistema CRUD de reservas desarrollado como práctica de pruebas unitarias m
 
 ## 1. Descripción general
 
-Nova Booking simula la gestión de reservas de espacios o salas universitarias. Permite crear, listar, editar, eliminar y cambiar el estado de reservas en memoria. Las reglas de negocio se incorporarán en la Fase 2.
+Nova Booking simula la gestión de reservas de espacios o salas universitarias. Permite crear, listar, editar, eliminar y cambiar el estado de reservas en memoria. Crear y Editar validan sus datos antes de modificar la memoria.
 
 Actualmente ofrece tarjetas, contadores y un formulario compartido para crear y editar. Su objetivo académico posterior es explicar y probar una unidad de validación sin depender de infraestructura externa.
 
@@ -34,7 +34,7 @@ El proyecto permitirá demostrar:
 - Resultados esperados y obtenidos, comparados explícitamente.
 - Pruebas manuales sin base de datos ni APIs.
 
-El CRUD está implementado; la lógica de validación y sus pruebas aisladas siguen siendo objetivos futuros. Las verificaciones de Fases 0 y 1 no equivalen a pruebas unitarias de reglas todavía inexistentes.
+El CRUD y la unidad aislada están implementados. Se realizaron comprobaciones técnicas de desarrollo; la suite manual formal del videotutorial sigue pendiente.
 
 ## 3. Stack tecnológico
 
@@ -63,6 +63,8 @@ nova-booking/
 ├── src/
 │   ├── crud/
 │   │   └── reservasCrud.js
+│   ├── datos/
+│   │   └── salas.js
 │   ├── validaciones/
 │   │   └── validarReserva.js
 │   ├── pruebas/
@@ -88,55 +90,66 @@ nova-booking/
 
 | Módulo | Responsabilidad | Estado actual |
 | --- | --- | --- |
-| `crud/reservasCrud.js` | Array privado, seis operaciones públicas y copias de salida | CRUD funcional sin DOM; validación de negocio pendiente |
-| `validaciones/validarReserva.js` | Reglas puras de negocio | Reservado, sin modificaciones |
+| `crud/reservasCrud.js` | Array privado, seis operaciones públicas y copias de salida | CRUD sin DOM; recibe los datos aprobados por el formulario |
+| `validaciones/validarReserva.js` | Reglas puras de negocio | Implementada e importable directamente desde Node |
+| `datos/salas.js` | Cuatro salas y sus capacidades | Catálogo estático sin efectos externos |
 | `pruebas/pruebaValidarReserva.js` | Pruebas aisladas futuras | Reservado, sin modificaciones |
-| `ui/reservasVista.js` | Catálogo informativo de cuatro salas, tarjetas, selectores y contadores | Renderizado con datos recibidos por parámetro |
+| `ui/reservasVista.js` | Tarjetas, selectores, contadores y mensajes de error | Renderizado con datos recibidos por parámetro |
 | `ui/interactions.js`, `ui/particles.js` | Efectos visuales futuros | Reservados, sin modificaciones |
-| `main.js` | Eventos, formulario, confirmación y coordinación con CRUD | Consume únicamente las funciones públicas |
+| `main.js` | Recoge datos, añade capacidad temporal y valida antes de Crear/Editar | Coordina validación, CRUD y presentación |
 | `styles.css` | Diseño oscuro, tarjetas, formularios y focus visible | Responsive básico |
-| `index.html` | Estructura semántica, resumen, estado vacío y diálogos | Interfaz funcional de Fase 1 |
+| `index.html` | Estructura semántica, resumen, estado vacío y diálogos | Formulario con validación JavaScript y `novalidate` |
 
-La validación no deberá conocer el DOM, modificar reservas, hacer solicitudes de red ni acceder a almacenamiento. El CRUD no manipula el DOM y la interfaz no tiene acceso directo al array privado. El catálogo es local, estático e informativo; su capacidad no rechaza reservas todavía.
+La unidad no importa módulos ni conoce la interfaz o el CRUD. El catálogo está en `datos/salas.js`; main obtiene la capacidad y la entrega como contexto de entrada. La capacidad se aplica al validar y no se almacena. El CRUD conserva sus comprobaciones técnicas, sin duplicar reglas de negocio.
 
 ## 5. Flujo conceptual
 
-Flujo actual implementado:
+Flujo actual de Crear y Editar:
 
 ```text
-Interfaz → funciones CRUD → array privado en memoria → renderizado actualizado
+Formulario → recoger datos + capacidadSala → validarReserva()
+  ├─ inválido → mostrar errores, mantener formulario y memoria intactos
+  └─ válido → CRUD → array privado → renderizado actualizado
 ```
 
-Flujo futuro de Fase 2:
+El cambio de estado desde tarjeta utiliza directamente la protección de estados del CRUD, sin revalidar la reserva completa. La validación de negocio está en el flujo del formulario: las funciones de almacenamiento no la repiten. Un futuro consumidor del CRUD deberá respetar esa misma frontera.
+
+Ejecución aislada actual:
 
 ```text
-Formulario → validarReserva() → CRUD → memoria
+Datos aislados → validarReserva() → resultado
 ```
 
-La integración deberá proteger las operaciones de creación y actualización antes de guardar, manteniendo las reglas únicamente en `validarReserva.js`. Actualmente no se importa ni ejecuta esa función.
-
-Prueba aislada futura:
-
-```text
-Datos de prueba → validarReserva() → resultado obtenido
-    → comparación con resultado esperado → PASS / FAIL
-```
-
-Estas pruebas no están implementadas; llamarán directamente a la función, sin pasar por el CRUD ni la interfaz.
+La comparación formal de resultado esperado/obtenido y el reporte PASS / FAIL se desarrollarán posteriormente, sin interfaz ni CRUD como dependencias de la unidad.
 
 ## 6. Unidad seleccionada
 
-La unidad prevista es **`validarReserva(reserva)`**. Su implementación completa llegará en la Fase 2. El contrato exacto de entrada y salida se definirá antes de implementar las reglas.
+**`validarReserva(reserva)`** analiza datos y acumula errores sin modificar la entrada. Es una función pura, determinista y sin imports: no utiliza navegador, reloj actual, red, almacenamiento, catálogo ni funciones CRUD.
 
-Reglas previstas:
+Entrada: objeto con `solicitante`, `correo`, `sala`, `fecha`, `horaInicio`, `horaFin`, `asistentes`, `estado` y `capacidadSala`. Los campos textuales son strings; asistentes y capacidad son números enteros positivos. La unidad no convierte strings numéricos: esa conversión corresponde a la coordinación del formulario. Los textos se analizan recortando espacios sin cambiar el objeto original.
 
-- Campos obligatorios.
-- Formato de correo.
-- Horario lógico.
-- Cantidad válida de asistentes.
-- Capacidad de la sala.
+Salida predecible:
 
-Los datos necesarios para validar deberán recibirse como entrada; la función no consultará un catálogo externo. En Fase 1 no existe una función ficticia que acepte todas las reservas: el archivo está preparado, pero la función aún no se exporta.
+```js
+// Válida
+{ valido: true, errores: [] }
+// Inválida
+{ valido: false, errores: [
+  { campo: 'correo', codigo: 'CORREO_INVALIDO', mensaje: 'Ingresa un correo válido.' }
+] }
+```
+
+| Regla | Criterio |
+| --- | --- |
+| Obligatorios | Ocho campos del formulario presentes y utilizables; espacios solos son vacíos |
+| Correo | Expresión sencilla con usuario, arroba y dominio con punto |
+| Fecha | Fecha real del calendario gregoriano en AAAA-MM-DD, incluidos años bisiestos; no se compara con hoy |
+| Horario | HH:MM entre 00:00 y 23:59; final estrictamente posterior al inicio, sin cruce de medianoche |
+| Asistentes | Número entero mayor que cero |
+| Capacidad | Contexto numérico entero positivo; asistentes no supera capacidadSala |
+| Estado | Pendiente, Confirmada o Cancelada |
+
+Una entrada no objeto devuelve `RESERVA_INVALIDA`; campos de tipo incorrecto devuelven errores controlados. Capacidad ausente/inválida devuelve `CAPACIDAD_INVALIDA`. No se lanzan excepciones por datos normales inválidos ni se detiene el análisis de otros campos al encontrar un error.
 
 ## 7. Persistencia
 
@@ -176,7 +189,7 @@ Si PowerShell bloquea el wrapper pnpm.ps1 por su política de ejecución, puede 
 | --- | --- | --- | --- |
 | Fase 0 | ✅ Completada | Preparación y arquitectura | Base preparada, pnpm configurado, arquitectura verificada y repositorio público publicado |
 | Fase 1 | ✅ Completada | CRUD funcional | Crear, listar, editar, eliminar y cambiar estado en memoria; revisión funcional y responsive realizada |
-| Fase 2 | ⏳ Pendiente | Unidad de validación | Pendiente |
+| Fase 2 | ✅ Completada | Unidad de validación | Función pura integrada en Crear/Editar; errores por campo y repositorio renombrado |
 | Fase 3 | ⏳ Pendiente | Sistema visual base | Pendiente |
 | Fase 4 | ⏳ Pendiente | Glassmorphism y figuras | Pendiente |
 | Fase 5 | ⏳ Pendiente | Partículas e interacciones | Pendiente |
@@ -190,6 +203,10 @@ Si PowerShell bloquea el wrapper pnpm.ps1 por su política de ejecución, puede 
 La bitácora es **acumulativa**: no borrar el historial de fases anteriores. En cada fase registrar qué se pidió, qué se implementó, archivos afectados, decisiones tomadas, pruebas realizadas, problemas encontrados, posibles pendientes y estado final. Corregir afirmaciones desactualizadas del estado actual sin eliminar la evidencia histórica.
 
 **NOVA BOOKING utiliza pnpm como único gestor de paquetes.** En todas las fases posteriores: usar pnpm, mantener `pnpm-lock.yaml`, no utilizar `npm install`, no generar `package-lock.json`, no utilizar yarn y no agregar dependencias innecesarias.
+
+**Commits:** a partir de Fase 2, todos los mensajes se escriben completamente en español, sin prefijos en inglés. El historial previo se conserva.
+
+**Alcance visual:** a partir de Fase 2, el objetivo de presentación visual se limita a navegadores de escritorio/laptop utilizados durante la demostración. No se realizarán auditorías específicas para teléfono o tablet. La evidencia responsive de Fase 1 permanece como antecedente histórico.
 
 ## Fase 0 — Preparación y arquitectura
 
@@ -369,6 +386,95 @@ En Fase 2, definir el contrato e implementar `validarReserva(reserva)` de forma 
 - [x] Revisión visual, responsive básico y consola realizados.
 - [x] README actualizado y bitácora anterior conservada.
 
+## Fase 2 — Unidad de validación
+
+### Objetivo
+
+Implementar una unidad crítica aislada y conectarla con Crear/Editar, sin adelantar la suite académica, Validation Lab ni el rediseño visual.
+
+### Cambios realizados
+
+- Función pura con resultados estructurados y acumulación de errores.
+- Catálogo movido de la UI a `src/datos/salas.js`.
+- main recoge y recorta textos, convierte asistentes cuando no está vacío y añade capacidad solo al contexto de validación.
+- Errores junto al campo, borde, resumen, `aria-invalid` y `aria-describedby`; foco en el primer error al enviar.
+- Tras un envío inválido se revalida al corregir datos, incluidos errores dependientes de sala/asistentes y de ambos horarios. Cerrar y alternar Crear/Editar limpia mensajes anteriores.
+- Renombrado del repositorio existente de `nova-booking-unit-testing` a `sistema-reservas-nova`, conservando historial y rama main. GitHub confirmó PUBLIC y actualizó origin a la URL nueva.
+
+### Contrato de validarReserva()
+
+Recibe los ocho campos editables más `capacidadSala`; devuelve `{ valido: boolean, errores: [{ campo, codigo, mensaje }] }`. La capacidad no se agrega al modelo almacenado. Se rechaza de forma controlada un contexto de capacidad ausente o no positivo.
+
+### Reglas implementadas
+
+Obligatorios, correo sencillo, fecha real AAAA-MM-DD, horas HH:MM y orden estricto, asistentes enteros positivos, capacidad máxima y estado permitido. Se acumulan errores independientes evitando errores derivados innecesarios (por ejemplo, no comparar capacidad si asistentes ya es inválido).
+
+### Integración con Crear y Editar
+
+Ambos usan la misma secuencia en main: recoger datos → proporcionar capacidad → validar → mostrar errores o invocar la operación CRUD. Si es inválido, el formulario permanece abierto y la reserva anterior no cambia. Al corregir y enviar, se guarda y se actualiza la interfaz; Editar conserva el ID. El selector de estado en tarjeta conserva su flujo anterior.
+
+### Aislamiento de la unidad
+
+Sin imports, DOM, CRUD, red, almacenamiento, reloj actual ni variables globales mutables. Los datos congelados se procesaron sin mutación y con resultados repetibles. Las reglas no se copiaron al CRUD, que permanece sin modificaciones.
+
+### Archivos creados/modificados
+
+Siete archivos: creado `src/datos/salas.js`; modificados `src/validaciones/validarReserva.js`, `src/main.js`, `src/ui/reservasVista.js`, `src/styles.css`, `index.html` y `README.md`. No se modificaron el CRUD, el archivo reservado de pruebas, el guion, dependencias ni lockfile.
+
+### Comprobaciones realizadas
+
+| Comprobación | Resultado observado |
+| --- | --- |
+| A — entrada válida | valido true y errores vacío |
+| B — correo incorrecto | CORREO_INVALIDO |
+| C — horario invertido | HORARIO_INVALIDO |
+| D — asistentes negativos | ASISTENTES_INVALIDOS |
+| E — Pulse con 20 asistentes y capacidad 12 | CAPACIDAD_SUPERADA |
+| F — correo, horario y asistentes incorrectos | Tres errores en una ejecución |
+| Límites adicionales en Node | 18 casos en total: espacios, fechas imposibles/bisiestos, horas iguales/fuera de rango, cero, decimal, texto, infinito, estado y capacidad ausente |
+| Entradas no objeto | Cinco entradas controladas sin excepciones |
+| Obligatorios | Los ocho campos con espacios detectados como obligatorios |
+| Correos del enunciado | Los cuatro formatos inválidos rechazados |
+| Pureza | Entradas congeladas sin cambios; resultados idénticos al repetir |
+| Capacidad temporal | No se guarda en la copia ni en el array del CRUD |
+| Crear válido en navegador | Reserva guardada, total 1 |
+| Crear inválido | Correo, horario invertido y exceso de capacidad impidieron altas; total permaneció en 1 |
+| Editar inválido | Nombre/correo originales permanecieron en la tarjeta y el diálogo siguió abierto |
+| Corregir edición | Error desapareció al corregir; guardado correcto con el mismo ID reserva-1 |
+| Limpieza | Sin errores antiguos tras cancelar, abrir Editar o volver a Crear |
+| Estado de tarjeta | Cambio a Confirmada y contadores correctos |
+| Laptop | Revisión en 1280×720, formulario y mensajes legibles; botones accesibles mediante scroll interior del diálogo |
+| Consola y build | Sin errores/advertencias de consola; pnpm build correcto |
+| GitHub | Nombre nuevo, PUBLIC, main y origin verificados |
+
+Son comprobaciones técnicas de desarrollo ejecutadas directamente, sin crear la suite académica definitiva ni modificar su archivo reservado. No se realizaron pruebas de teléfono/tablet ni cambios destinados a esos dispositivos.
+
+### Problemas encontrados
+
+No se detectaron fallos funcionales en las comprobaciones finales. Se decidió validar capacidad ausente para impedir aceptar reservas sin contexto. La fecha se verifica por calendario, evitando normalizaciones de fechas inexistentes o dependencia del día actual. Los errores normales se devuelven como datos, sin excepciones.
+
+### Estado final
+
+Fase 2 completada: unidad aislada, Crear/Editar protegidos y mensajes coherentes. Sin persistencia ni dependencias nuevas. Se conserva la bitácora de Fases 0 y 1, incluida su evidencia histórica.
+
+### Próximo paso
+
+Fase 3: sistema visual base para laptop. La suite manual formal, Validation Lab y guion final siguen pendientes de sus fases. No se avanzó automáticamente.
+
+### Auditoría de Fase 2
+
+- [x] Unidad implementada e importable desde Node, sin imports ni efectos externos.
+- [x] No modifica entradas; devuelve valido y errores estructurados, acumulando problemas.
+- [x] Obligatorios, correo, fecha, horario, enteros positivos, capacidad y estado comprobados.
+- [x] Crear y Editar validan antes de guardar; entradas inválidas del formulario no llegan al array.
+- [x] Edición inválida conserva el registro; reglas no duplicadas en el CRUD.
+- [x] Errores comprensibles, asociados a campos y limpiados al corregir/cerrar/cambiar modo.
+- [x] Sin backend, base de datos, APIs de aplicación ni persistencia.
+- [x] Sin dependencias nuevas; pnpm-lock.yaml único lockfile, sin package-lock.json.
+- [x] Build correcto y revisión visual únicamente en laptop.
+- [x] README actualizado; historial de fases anteriores conservado.
+- [x] Repositorio renombrado, PUBLIC, origin y enlaces actualizados, historial conservado.
+
 ## 9. Auditoría de Fase 0
 
 - [x] Proyecto inicia correctamente; Vite funciona.
@@ -395,10 +501,10 @@ En Fase 2, definir el contrato e implementar `validarReserva(reserva)` de forma 
 
 ## 10. Git y GitHub
 
-Repositorio: [JorgeDavid12/nova-booking-unit-testing](https://github.com/JorgeDavid12/nova-booking-unit-testing).
+Repositorio: [JorgeDavid12/sistema-reservas-nova](https://github.com/JorgeDavid12/sistema-reservas-nova).
 
 - Visibilidad comprobada: **PUBLIC**.
-- Remote: `https://github.com/JorgeDavid12/nova-booking-unit-testing.git`.
+- Remote: `https://github.com/JorgeDavid12/sistema-reservas-nova.git`.
 - Rama local y remota: `main`, también confirmada como rama predeterminada en GitHub.
 - Publicación verificada: commit de migración `d241f5a`, seguido del commit documental de cierre.
 - Historial inicial conservado: `f88c0fb` y `e7607a9`.
