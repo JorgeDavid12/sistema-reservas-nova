@@ -1,0 +1,4 @@
+# Mantener la versión de Vite ya utilizada por el proyecto durante la migración.
+# Excepción acotada: pnpm 12 exige antigüedad mínima y esta versión es reciente.
+minimumReleaseAgeExclude:
+  - vite@8.3.0

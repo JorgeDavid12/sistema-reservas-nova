@@ -2,7 +2,7 @@
 
 Mini sistema CRUD de reservas desarrollado como práctica de pruebas unitarias manuales y aislamiento de lógica dentro de Aseguramiento de la Calidad de Software.
 
-**Estado actual:** Fase 0 completada en local. Publicación en GitHub pendiente por falta de GitHub CLI. El CRUD y las reglas de validación todavía no están implementados.
+**Estado actual:** cierre de Fase 0 en curso. Entorno configurado con pnpm; repositorio público creado en [GitHub](https://github.com/JorgeDavid12/nova-booking-unit-testing). Push de cierre pendiente. CRUD pendiente para Fase 1.
 
 | Quiero... | Ir a |
 | --- | --- |
@@ -44,8 +44,10 @@ Estas capacidades son objetivos futuros; la verificación de arranque de Fase 0 
 | JavaScript modular | Entrada y futura lógica | Activo |
 | HTML | Estructura semántica | Activo |
 | CSS | Pantalla temporal oscura | Activo |
-| Node.js / npm | Herramientas locales de desarrollo | Verificado con Node 24.19.0 / npm 9.3.1 |
-| Git | Versionado local, rama `main` | Activo |
+| Node.js 24.19.0 | Herramientas locales de desarrollo | Disponible normalmente en el equipo |
+| pnpm 12.3.4 | Único gestor de paquetes | Instalación, desarrollo y build verificados |
+| Git 2.55.0.windows.3 | Versionado, rama `main` | Activo |
+| GitHub / GitHub CLI 2.100.0 | Repositorio público y publicación | Autenticado como `JorgeDavid12` |
 | Base de datos | No utilizada | No aplica |
 | API externa | No utilizada | No aplica |
 | Backend | No utilizado | No aplica |
@@ -74,11 +76,14 @@ nova-booking/
 ├── README.md
 ├── GUION_VIDEO.md
 ├── package.json
-├── package-lock.json
+├── pnpm-lock.yaml
+├── pnpm-workspace.yaml
 └── .gitignore
 ```
 
 `node_modules/` y `dist/` son directorios locales generados y excluidos de Git; `.git/` contiene el historial local.
+
+`pnpm-workspace.yaml` conserva únicamente una excepción de antigüedad mínima para `vite@8.3.0`, necesaria con pnpm 12 durante esta migración para mantener la versión existente. No convierte la aplicación en un monorepo ni agrega dependencias.
 
 | Módulo | Responsabilidad prevista | Implementación en Fase 0 |
 | --- | --- | --- |
@@ -149,41 +154,25 @@ En Fase 0 todavía no se crea ni modifica un array de reservas.
 
 ## 8. Ejecución local
 
-Requisito: Node.js compatible con `^20.19.0 || >=22.12.0` y npm. Para reproducir el entorno validado, utiliza Node 24.19.0. Consulta los [requisitos oficiales de Vite](https://vite.dev/guide/).
-
-Desde la carpeta `nova-booking`:
+Entorno verificado: Node.js 24.19.0 y pnpm 12.3.4. Desde la carpeta `nova-booking`:
 
 ```sh
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
-Abre la dirección indicada por Vite. En la auditoría se utilizó `http://127.0.0.1:5173/`. Para detener el servidor, pulsa `Ctrl+C` en su terminal.
+Abre la dirección indicada por Vite. Para detener el servidor, pulsa `Ctrl+C`.
 
-Comandos adicionales disponibles:
+Comandos adicionales:
 
 ```sh
-npm run build
-npm run preview
+pnpm build
+pnpm preview
 ```
 
-`build` genera `dist/`; `preview` permite revisar esa compilación localmente. No existe un comando de pruebas de validación en esta fase.
+`build` genera `dist/`; `preview` sirve esa compilación localmente. No existe un comando de pruebas de validación en esta fase.
 
-### Observación del entorno de preparación
-
-El Node predeterminado del equipo era **19.5.0**, incompatible con Vite 8. La primera instalación emitió `EBADENGINE`. Se corrigió la ejecución de las herramientas usando Node **24.19.0**, disponible en el entorno de trabajo, y se repitió una instalación limpia con `npm ci`, sin avisos de incompatibilidad.
-
-No se modificó la instalación global ni el PATH persistente del equipo. Antes de utilizar los comandos normales desde una nueva terminal, instala o selecciona un Node compatible y comprueba `node --version` y `npm --version`.
-
-Alternativa temporal para este equipo, en PowerShell y desde `nova-booking`, usando el Node ya disponible sin cambiar la configuración global:
-
-```powershell
-$novaNodeDir = Join-Path $env:USERPROFILE '.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin'
-$env:Path = "$novaNodeDir;$env:Path"
-& "$novaNodeDir\node.exe" 'C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js' run dev
-```
-
-Esta ruta depende del entorno local. La vía portable es instalar o seleccionar una versión compatible de Node y utilizar `npm install` / `npm run dev`.
+Si PowerShell bloquea el wrapper pnpm.ps1 por su política de ejecución, puede utilizarse `pnpm.cmd` con los mismos argumentos; por ejemplo, `pnpm.cmd dev`. No es necesario cambiar la política de ejecución.
 
 ---
 
@@ -191,7 +180,7 @@ Esta ruta depende del entorno local. La vía portable es instalar o seleccionar 
 
 | Fase | Estado | Objetivo | Resultado |
 | --- | --- | --- | --- |
-| Fase 0 | ✅ Completada en local; GitHub pendiente | Preparación y arquitectura | Base ejecutable, documentada y versionada; publicación bloqueada por ausencia de `gh` |
+| Fase 0 | Cierre en curso | Preparación y arquitectura | Base preparada, pnpm configurado, arquitectura verificada; push pendiente |
 | Fase 1 | ⏳ Pendiente | CRUD funcional | Pendiente |
 | Fase 2 | ⏳ Pendiente | Unidad de validación | Pendiente |
 | Fase 3 | ⏳ Pendiente | Sistema visual base | Pendiente |
@@ -205,6 +194,8 @@ Esta ruta depende del entorno local. La vía portable es instalar o seleccionar 
 > Al finalizar cada fase de desarrollo debe actualizarse esta documentación antes de considerar la fase completada.
 
 La bitácora es **acumulativa**: no borrar el historial de fases anteriores. En cada fase registrar qué se pidió, qué se implementó, archivos afectados, decisiones tomadas, pruebas realizadas, problemas encontrados, posibles pendientes y estado final. Corregir afirmaciones desactualizadas del estado actual sin eliminar la evidencia histórica.
+
+**NOVA BOOKING utiliza pnpm como único gestor de paquetes.** En todas las fases posteriores: usar pnpm, mantener `pnpm-lock.yaml`, no utilizar `npm install`, no generar `package-lock.json`, no utilizar yarn y no agregar dependencias innecesarias.
 
 ## Fase 0 — Preparación y arquitectura
 
@@ -223,23 +214,25 @@ Preparar una base simple, ejecutable, modular, versionada y documentada para un 
 - Se instaló Vite y se generó el lockfile para reproducir las dependencias.
 - Se inicializó Git en la rama `main`, con exclusiones para dependencias, compilación y archivos de entorno.
 - Se creó el commit inicial `f88c0fb` — `chore: initialize Nova Booking project architecture` y se verificó el árbol de trabajo limpio tras ese commit.
-- Se intentó crear el repositorio público mediante GitHub CLI; el ejecutable no está disponible.
+- En la ejecución inicial se intentó crear el repositorio público mediante GitHub CLI, pero el ejecutable no estaba disponible; el ajuste posterior se registra abajo.
 
 ### Archivos creados/modificados
 
-Todos los 13 archivos del árbol de [Arquitectura](#4-arquitectura) se crearon en esta fase. No había código previo que modificar. Los directorios generados `node_modules/` y `dist/` no forman parte del código versionado.
+La preparación inicial creó 13 archivos, incluido el antiguo lockfile de npm. No había código previo que modificar. En el ajuste se modifican `package.json` y `README.md`, se elimina `package-lock.json` y se agregan `pnpm-lock.yaml` y `pnpm-workspace.yaml`. Los directorios generados `node_modules/` y `dist/` no forman parte del código versionado.
 
 ### Decisiones técnicas
 
 - Solo Vite como dependencia directa de desarrollo; sin React ni backend.
-- Vite fijado a `8.3.0` y versiones resueltas en `package-lock.json`.
+- Vite fijado a `8.3.0`; inicialmente se utilizó el lockfile de npm, sustituido por `pnpm-lock.yaml` en el ajuste de entorno.
 - HTML semántico y fuentes del sistema, sin recursos remotos de interfaz.
 - Separar la lógica de negocio de la interfaz desde el árbol inicial.
 - Reservar módulos futuros sin inventar resultados de validación ni añadir controles sin funcionalidad.
 - No añadir un framework de pruebas ni desarrollar casos finales en esta fase.
-- Mantener la publicación como pendiente explícito, sin improvisar credenciales ni cambiar de servicio.
+- Registrar los bloqueos iniciales y sus resoluciones sin improvisar credenciales ni cambiar de servicio.
 
 ### Validaciones realizadas
+
+Evidencia histórica de la preparación inicial (los comandos npm de esta tabla no son las instrucciones vigentes):
 
 | Verificación | Resultado observado |
 | --- | --- |
@@ -250,7 +243,7 @@ Todos los 13 archivos del árbol de [Arquitectura](#4-arquitectura) se crearon e
 | Consola del navegador | Sin advertencias ni errores registrados durante la carga auditada |
 | Módulos reservados | Los cinco módulos se importaron desde Node sin DOM ni servicios externos |
 | Alcance | Sin CRUD, reglas finales, Validation Lab ni efectos avanzados |
-| Publicación | Comando de creación falló porque `gh` no está instalado/disponible |
+| Publicación inicial | Comando de creación falló porque `gh` no estaba instalado/disponible |
 | Git | Commit inicial `f88c0fb` verificado; 13 archivos versionados; `git diff --cached --check` sin errores |
 | Exclusiones | `git check-ignore` confirmó `node_modules`, `dist` y `.env`; revisión de archivos versionados sin credenciales |
 
@@ -258,58 +251,70 @@ Importar módulos vacíos comprueba únicamente la estructura y su independencia
 
 ### Problemas encontrados
 
-1. **Node global incompatible:** el sistema resolvía Node 19.5.0. Se verificó la aplicación con Node 24.19.0 del entorno y se documentó cómo ejecutarla; queda pendiente actualizar o seleccionar Node en la terminal habitual del usuario.
-2. **GitHub CLI ausente:** `gh repo create` no pudo ejecutarse. No existe un repositorio remoto creado por esta fase ni se realizó push. Los pasos concretos están en [Git y GitHub](#10-git-y-github).
+1. **Node global incompatible, resuelto:** inicialmente el sistema resolvía Node 19.5.0 y se recurrió a un runtime temporal compatible. Antes de continuar se instaló Node 24.19.0, ahora disponible normalmente y verificado con `node --version`.
+2. **GitHub CLI ausente, resuelto:** inicialmente `gh` no estaba disponible. Posteriormente se instaló GitHub CLI 2.100.0 y se autenticó la cuenta `JorgeDavid12`. Se verificó la sesión y se creó el repositorio público. Esta sesión conservaba un PATH anterior, por lo que se invocaron GitHub CLI y Git 2.55 desde sus rutas instaladas, sin reinstalarlos.
+3. **Reinstalación de dependencias:** la revisión automática bloqueó la eliminación recursiva de `node_modules`; se utilizó `pnpm.cmd install --force` y luego una instalación normal exitosa. No se modificó ExecutionPolicy.
+4. **Antigüedad mínima de Vite:** pnpm generó una excepción para `vite@8.3.0`. Al comprobar la instalación sin ella apareció `ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION`; se conservó la excepción específica en `pnpm-workspace.yaml`. No se desactivó globalmente la política ni se cambió Vite.
+
+### Ajuste de entorno — Migración a pnpm
+
+- La configuración inicial de Vite, instalada con npm, había generado `package-lock.json`.
+- Antes de Fase 1 se estandarizó el proyecto con pnpm 12.3.4, registrado como `packageManager`.
+- Se eliminó `package-lock.json` y se generó `pnpm-lock.yaml`.
+- Se verificaron `pnpm.cmd install`, `pnpm.cmd build` y `pnpm.cmd dev` con Node 24.19.0.
+- La pantalla de Fase 0 cargó en `http://127.0.0.1:5174/` con estado «Operativo», sin errores ni advertencias de consola. Se detuvo el servidor temporal después de la comprobación.
+- Los módulos reservados se importaron desde Node sin DOM ni servicios externos. No se modificaron `src/`, `index.html`, `.gitignore` ni `GUION_VIDEO.md`.
+- Se revisaron los archivos versionados y el historial antes de publicar; no se detectaron credenciales, tokens ni archivos personales innecesarios. Dependencias, compilación y `.env` permanecen excluidos.
 
 ### Estado final
 
-Fase 0 terminada en su alcance local: estructura, página inicial, documentación y verificaciones de arranque/compilación. La publicación pública permanece pendiente por el bloqueo de herramientas admitido en el alcance de esta fase; no se presenta como realizada.
+Entorno y migración verificados; cierre de publicación pendiente de push y comprobación remota.
 
 ### Próximo paso
 
-Resolver los pendientes de entorno/publicación y, únicamente cuando se autorice la Fase 1, definir el modelo de reserva e implementar crear, listar, editar y eliminar sobre un array en memoria, con una interfaz mínima. Preservar la frontera de `validarReserva(reserva)`; la implementación completa de sus reglas corresponde a la Fase 2.
+Únicamente cuando se autorice la Fase 1, definir el modelo de reserva e implementar crear, listar, editar y eliminar sobre un array en memoria, con una interfaz mínima. Preservar la frontera de `validarReserva(reserva)`; la implementación completa de sus reglas corresponde a la Fase 2.
 
 ## 9. Auditoría de Fase 0
 
-- [x] El proyecto inicia correctamente con Node compatible.
-- [x] Vite funciona y compila.
-- [x] JavaScript está organizado por módulos.
-- [x] No existe backend de aplicación.
-- [x] No existe base de datos.
-- [x] No existen APIs externas en la aplicación.
-- [x] La estructura separa lógica y UI.
-- [x] `validarReserva.js` se mantiene independiente, aún sin reglas implementadas.
-- [x] `README.md` está creado y organizado.
-- [x] El README contiene bitácora por fases y regla de mantenimiento acumulativo.
-- [x] Fase 0 declara su cierre local y conserva los pendientes externos.
-- [x] `GUION_VIDEO.md` existe.
-- [x] `.gitignore` existe.
-- [x] Git está inicializado en `main`.
-- [x] Existe al menos un commit: `f88c0fb`, seguido de la actualización documental de cierre.
-- [x] Se intentó crear/subir el repositorio público: bloqueo por falta de `gh`.
-- [x] La aplicación abre sin errores ni advertencias de consola en la carga revisada.
-- [ ] Repositorio público creado y push completado: pendiente externo.
-- [ ] Node compatible seleccionado en la terminal habitual: pendiente de configuración del usuario.
+- [x] Proyecto inicia correctamente; Vite funciona.
+- [x] Node 24.19.0 disponible.
+- [x] pnpm 12.3.4 disponible y declarado en `packageManager`.
+- [x] `pnpm-lock.yaml` generado.
+- [x] `package-lock.json` eliminado y no regenerado.
+- [x] `pnpm install` funciona.
+- [x] `pnpm build` funciona.
+- [x] `pnpm dev` funciona; servidor temporal detenido al finalizar.
+- [x] Página inicial operativa, sin errores ni advertencias de consola.
+- [x] JavaScript continúa organizado por módulos.
+- [x] No existe backend, base de datos ni APIs externas en la aplicación.
+- [x] `validarReserva.js` continúa aislable, sin reglas implementadas.
+- [x] README actualizado con historial acumulativo y regla permanente de pnpm.
+- [x] `GUION_VIDEO.md` continúa presente.
+- [x] Git 2.55.0.windows.3 funciona; historial anterior conservado.
+- [x] GitHub CLI 2.100.0 funciona y está autenticado como `JorgeDavid12`.
+- [x] Repositorio público creado y confirmado como `PUBLIC`.
+- [x] `origin` apunta al repositorio correcto.
+- [ ] Rama `main` publicada y commit remoto comprobado.
+- [x] No se detectaron credenciales versionadas tras revisión de archivos e historial.
+- [x] `node_modules/`, `dist/` y `.env` ignorados; sin temporales versionados.
 
 ## 10. Git y GitHub
 
-Nombre previsto del repositorio público: **`nova-booking-unit-testing`**.
+Repositorio: [JorgeDavid12/nova-booking-unit-testing](https://github.com/JorgeDavid12/nova-booking-unit-testing).
 
-El intento de `gh repo create nova-booking-unit-testing --public --source . --remote origin --push` terminó con «`gh` no se reconoce». La autenticación no pudo verificarse sin el ejecutable. No se configuró un remote ficticio ni se publicaron datos en otro servicio.
+- Visibilidad comprobada: **PUBLIC**.
+- Remote: `https://github.com/JorgeDavid12/nova-booking-unit-testing.git`.
+- Rama local: `main`; publicación en proceso de cierre.
+- Historial inicial conservado: `f88c0fb` y `e7607a9`.
 
-Para completar la publicación:
+El bloqueo inicial por falta de GitHub CLI quedó resuelto con su instalación y autenticación previas a este ajuste. Se creó el repositorio desde el Git existente, sin reinicializarlo ni sobrescribir commits.
 
-1. Instala [GitHub CLI](https://cli.github.com/) y abre una terminal nueva.
-2. Desde `nova-booking`, autentícate y crea el repositorio público:
+Comprobaciones de publicación:
 
 ```sh
-gh auth login
-gh repo create nova-booking-unit-testing --public --source . --remote origin --push
-gh repo view --json url,visibility
+git push -u origin main
+gh repo view --json name,url,visibility,defaultBranchRef
+git status
 ```
 
-La última orden debe devolver `PUBLIC` y la URL real. Si el nombre ya existe en tu cuenta, revisa ese repositorio antes de enlazarlo: no sobrescribir su contenido automáticamente.
-
-No versionar credenciales, tokens, claves, archivos personales ni `node_modules/`. La propiedad `private: true` de `package.json` evita publicar accidentalmente un paquete npm; no impide que el repositorio de GitHub sea público.
-
-Después de publicar, registrar la URL real y la comprobación del push en esta bitácora, marcar el pendiente correspondiente y guardar la actualización en un nuevo commit.
+No versionar credenciales, tokens, claves, archivos personales ni `node_modules/`. La propiedad `private: true` de `package.json` evita publicar accidentalmente un paquete en el registro; no impide que GitHub sea público.
