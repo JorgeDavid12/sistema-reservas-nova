@@ -2,7 +2,7 @@
 
 Mini sistema CRUD de reservas desarrollado como práctica de pruebas unitarias manuales y aislamiento de lógica dentro de Aseguramiento de la Calidad de Software.
 
-**Estado actual:** cierre de Fase 0 en curso. Entorno configurado con pnpm; repositorio público creado en [GitHub](https://github.com/JorgeDavid12/nova-booking-unit-testing). Push de cierre pendiente. CRUD pendiente para Fase 1.
+**Estado actual:** Fase 0 completada. Entorno configurado con pnpm. Repositorio público publicado en [GitHub](https://github.com/JorgeDavid12/nova-booking-unit-testing), rama `main`. CRUD pendiente para Fase 1.
 
 | Quiero... | Ir a |
 | --- | --- |
@@ -180,7 +180,7 @@ Si PowerShell bloquea el wrapper pnpm.ps1 por su política de ejecución, puede 
 
 | Fase | Estado | Objetivo | Resultado |
 | --- | --- | --- | --- |
-| Fase 0 | Cierre en curso | Preparación y arquitectura | Base preparada, pnpm configurado, arquitectura verificada; push pendiente |
+| Fase 0 | ✅ Completada | Preparación y arquitectura | Base preparada, pnpm configurado, arquitectura verificada y repositorio público publicado |
 | Fase 1 | ⏳ Pendiente | CRUD funcional | Pendiente |
 | Fase 2 | ⏳ Pendiente | Unidad de validación | Pendiente |
 | Fase 3 | ⏳ Pendiente | Sistema visual base | Pendiente |
@@ -268,7 +268,7 @@ Importar módulos vacíos comprueba únicamente la estructura y su independencia
 
 ### Estado final
 
-Entorno y migración verificados; cierre de publicación pendiente de push y comprobación remota.
+Fase 0 completada: entorno, pnpm, Git, GitHub y documentación preparados. Repositorio confirmado como `PUBLIC`, con `main` publicada y configurada como rama predeterminada. El commit de migración `d241f5a` se comprobó en el remoto; este cierre documental queda registrado en un commit posterior. No se inició la Fase 1.
 
 ### Próximo paso
 
@@ -294,7 +294,7 @@ Entorno y migración verificados; cierre de publicación pendiente de push y com
 - [x] GitHub CLI 2.100.0 funciona y está autenticado como `JorgeDavid12`.
 - [x] Repositorio público creado y confirmado como `PUBLIC`.
 - [x] `origin` apunta al repositorio correcto.
-- [ ] Rama `main` publicada y commit remoto comprobado.
+- [x] Rama `main` publicada, predeterminada y commit remoto comprobado.
 - [x] No se detectaron credenciales versionadas tras revisión de archivos e historial.
 - [x] `node_modules/`, `dist/` y `.env` ignorados; sin temporales versionados.
 
@@ -304,7 +304,8 @@ Repositorio: [JorgeDavid12/nova-booking-unit-testing](https://github.com/JorgeDa
 
 - Visibilidad comprobada: **PUBLIC**.
 - Remote: `https://github.com/JorgeDavid12/nova-booking-unit-testing.git`.
-- Rama local: `main`; publicación en proceso de cierre.
+- Rama local y remota: `main`, también confirmada como rama predeterminada en GitHub.
+- Publicación verificada: commit de migración `d241f5a`, seguido del commit documental de cierre.
 - Historial inicial conservado: `f88c0fb` y `e7607a9`.
 
 El bloqueo inicial por falta de GitHub CLI quedó resuelto con su instalación y autenticación previas a este ajuste. Se creó el repositorio desde el Git existente, sin reinicializarlo ni sobrescribir commits.
