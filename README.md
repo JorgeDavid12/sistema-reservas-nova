@@ -222,6 +222,7 @@ Preparar una base simple, ejecutable, modular, versionada y documentada para un 
 - Se creó el guion provisional con participantes y distribución de tiempo.
 - Se instaló Vite y se generó el lockfile para reproducir las dependencias.
 - Se inicializó Git en la rama `main`, con exclusiones para dependencias, compilación y archivos de entorno.
+- Se creó el commit inicial `f88c0fb` — `chore: initialize Nova Booking project architecture` y se verificó el árbol de trabajo limpio tras ese commit.
 - Se intentó crear el repositorio público mediante GitHub CLI; el ejecutable no está disponible.
 
 ### Archivos creados/modificados
@@ -250,6 +251,8 @@ Todos los 13 archivos del árbol de [Arquitectura](#4-arquitectura) se crearon e
 | Módulos reservados | Los cinco módulos se importaron desde Node sin DOM ni servicios externos |
 | Alcance | Sin CRUD, reglas finales, Validation Lab ni efectos avanzados |
 | Publicación | Comando de creación falló porque `gh` no está instalado/disponible |
+| Git | Commit inicial `f88c0fb` verificado; 13 archivos versionados; `git diff --cached --check` sin errores |
+| Exclusiones | `git check-ignore` confirmó `node_modules`, `dist` y `.env`; revisión de archivos versionados sin credenciales |
 
 Importar módulos vacíos comprueba únicamente la estructura y su independencia inicial; no demuestra reglas de negocio que todavía no existen.
 
@@ -282,7 +285,7 @@ Resolver los pendientes de entorno/publicación y, únicamente cuando se autoric
 - [x] `GUION_VIDEO.md` existe.
 - [x] `.gitignore` existe.
 - [x] Git está inicializado en `main`.
-- [ ] Existe al menos un commit: verificación de cierre pendiente.
+- [x] Existe al menos un commit: `f88c0fb`, seguido de la actualización documental de cierre.
 - [x] Se intentó crear/subir el repositorio público: bloqueo por falta de `gh`.
 - [x] La aplicación abre sin errores ni advertencias de consola en la carga revisada.
 - [ ] Repositorio público creado y push completado: pendiente externo.
