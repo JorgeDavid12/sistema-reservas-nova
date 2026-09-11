@@ -2,7 +2,7 @@
 
 Mini sistema CRUD de reservas desarrollado como práctica de pruebas unitarias manuales y aislamiento de lógica dentro de Aseguramiento de la Calidad de Software.
 
-**Estado actual:** Fase 3 completada y corregida: dashboard bento con iluminación multicolor, cristal visible, figuras CSS y partículas interactivas. Entorno configurado con pnpm. Repositorio público publicado en [GitHub](https://github.com/JorgeDavid12/sistema-reservas-nova), rama `main`. CRUD funcional y unidad de validación integrada. Prueba manual formal pendiente para fases posteriores.
+**Estado actual:** Fase 4 completada: composición amplia para laptop, cristal refinado, reservas con distribución adaptable y modales unificados. Se conservan las figuras y partículas existentes. Entorno configurado con pnpm. Repositorio público publicado en [GitHub](https://github.com/JorgeDavid12/sistema-reservas-nova), rama `main`. CRUD funcional y unidad de validación integrada. Prueba manual formal pendiente para fases posteriores.
 
 | Quiero... | Ir a |
 | --- | --- |
@@ -12,7 +12,7 @@ Mini sistema CRUD de reservas desarrollado como práctica de pruebas unitarias m
 | Entender qué se probará | [Unidad seleccionada](#6-unidad-seleccionada) |
 | Revisar el avance | [Bitácora por fases](#bitácora-de-desarrollo) |
 | Ejecutar el proyecto | [Ejecución local](#8-ejecución-local) |
-| Revisar estado actual | [Revisión de Fase 3](#revisión-realizada) |
+| Revisar estado actual | [Fase 4](#fase-4--glassmorphism-y-composición) |
 | Preparar el videotutorial | [Guion pendiente](GUION_VIDEO.md) |
 | Publicar el repositorio | [Git y GitHub](#10-git-y-github) |
 
@@ -98,7 +98,7 @@ nova-booking/
 | `ui/interactions.js` | Entrada visual independiente desde index.html; iluminación al cursor | Activo, sin acceso al CRUD ni a validación |
 | `ui/particles.js` | Canvas decorativo con movimiento y reacción al cursor | 52 partículas, dibujo limitado a 30 FPS y pausa por visibilidad |
 | `main.js` | Recoge datos, añade capacidad temporal y valida antes de Crear/Editar | Coordina validación, CRUD y presentación |
-| `styles.css` | Variables visuales, bento, cristal, geometría, controles, estados y foco | Fase 3 corregida; luces ambientales y microinteracciones |
+| `styles.css` | Variables visuales, bento, cristal, geometría, controles, estados y foco | Fase 4; composición amplia, grid adaptable y cristal refinado |
 | `index.html` | Header con acción principal, resumen bento, estado vacío y diálogos | IDs, controles y validación conservados |
 
 La unidad no importa módulos ni conoce la interfaz o el CRUD. El catálogo está en `datos/salas.js`; main obtiene la capacidad y la entrega como contexto de entrada. La capacidad se aplica al validar y no se almacena. El CRUD conserva sus comprobaciones técnicas, sin duplicar reglas de negocio.
@@ -192,7 +192,7 @@ Si PowerShell bloquea el wrapper pnpm.ps1 por su política de ejecución, puede 
 | Fase 1 | ✅ Completada | CRUD funcional | Crear, listar, editar, eliminar y cambiar estado en memoria; revisión funcional y responsive realizada |
 | Fase 2 | ✅ Completada | Unidad de validación | Función pura integrada en Crear/Editar; errores por campo y repositorio renombrado |
 | Fase 3 | ✅ Completada | Sistema visual base | Bento reforzado con gradientes, cristal, figuras y primera versión de partículas; revisión en laptop |
-| Fase 4 | ⏳ Pendiente | Glassmorphism y figuras | Pendiente |
+| Fase 4 | ✅ Completada | Glassmorphism y composición | Mayor ancho, cristal refinado, información interna retirada y revisión con 1, 2 y 3 reservas |
 | Fase 5 | ⏳ Pendiente | Partículas e interacciones | Pendiente |
 | Fase 6 | ⏳ Pendiente | Validation Lab y pruebas | Pendiente |
 | Fase 7 | ⏳ Pendiente | Video y auditoría final | Pendiente |
@@ -546,6 +546,50 @@ Cristal más evidente, profundidad, luces detrás del cristal y composición dec
 **Problema corregido.** Una esfera sobresalía sobre parte del mensaje de confirmación. Se redujo su altura y se ajustaron separación y orden de capas; el mensaje se volvió a comprobar completo después de cambiar estado.
 
 **Estado final.** Corrección visual de Fase 3 completada. CRUD, validaciones, datos en memoria y eventos funcionales conservados. El historial anterior permanece intacto. Para Fase 4 queda profundizar y afinar la composición de cristal y figuras sobre esta base; Fase 5 podrá evolucionar las partículas. No se inicia ninguna de ellas automáticamente.
+
+## Fase 4 — Glassmorphism y composición
+
+### Objetivo
+
+Pulir la composición de laptop y la profundidad del cristal sin cambiar lógica, validaciones, datos ni comportamiento de partículas.
+
+### Aprovechamiento del ancho y limpieza
+
+Contenedor máximo ampliado de 1240 a 1680 px, con margen interior fluido de 24–48 px. En 1366×768 el contenido medido ocupa aproximadamente 1295 px y deja 36 px a cada lado, frente a unos 95 px del diseño previo. Header, hero, bento y reservas comparten los mismos bordes. Header, separaciones y footer más compactos.
+
+Se retiraron «Datos en memoria», «FASE 03» y «Solo en esta sesión · Las reservas se borran al recargar» de la interfaz. La persistencia exclusivamente en memoria sigue explicada en esta documentación; no se modificó su comportamiento.
+
+### Cristal, figuras y bento
+
+Bordes translúcidos y sombras interiores compartidos, reflejo fino en el borde superior, desenfoque de 22 px y transparencia equilibrada con fondos oscuros. Se ajustaron tamaño, posición y opacidad de las figuras existentes para dejar ver sus contornos detrás del cristal sin cubrir mensajes. No se agregaron figuras ni se modificó el sistema de partículas.
+
+El bento conserva total a la izquierda, pendientes/canceladas apiladas al centro y confirmadas a la derecha, con filas de 78 px y separación de 12 px. Se equilibraron las luces violeta, azul, coral y cian y la escala de los símbolos.
+
+### Reservas y formularios
+
+Grid CSS con distribución automática: una tarjeta hasta 760 px, dos repartidas en el ancho disponible y tres en una fila en las laptops revisadas. Fecha y horario comparten fila para mantener compactas las tarjetas. No se generaron datos permanentes.
+
+Crear/Editar tiene un ancho máximo de 720 px y conserva sus dos columnas, controles y mensajes. Ambos diálogos comparten transparencia, reflejos y sombras; el fondo usa un desenfoque leve para reconocer el dashboard. Campos integrados y errores con fondo rojo oscuro y texto claro.
+
+### Archivos modificados
+
+Tres archivos existentes: `index.html`, `src/styles.css` y `README.md`. Arquitectura sin archivos nuevos. Git confirmó que todos los archivos JavaScript, incluidas partículas e interacciones, así como dependencias y lockfile permanecen intactos.
+
+### Revisión realizada
+
+- Navegador a 1366×768: estado vacío, una, dos y tres reservas; sin desbordamiento horizontal del documento. Tres tarjetas de aproximadamente 421 px, alineadas y sin desbordamiento interno.
+- Navegador a 1440×900: tres reservas, ancho de contenido de aproximadamente 1365 px y sin desbordamiento horizontal.
+- Inspección visual de luces, figuras, reflejos y separación de superficies: no se observaron colisiones con textos o controles.
+- Formulario vacío enviado: seis errores por campo y resumen visibles; datos corregidos y tres reservas creadas mediante el formulario.
+- Edición guardada y diálogo de eliminación revisado; eliminar el primer registro conservó `reserva-2` y `reserva-3` y actualizó el total a 2.
+- Ausencia de los tres textos internos comprobada en el DOM visible.
+- `pnpm.cmd build` completado con Vite 8.3.0. `git diff --check` sin errores de espacios.
+
+Revisión limitada a laptop/escritorio. Los registros ficticios se introdujeron únicamente en la memoria del navegador para revisar la composición. No se añadió una suite de pruebas ni se realizó una auditoría de dispositivos móviles.
+
+### Estado final y pendiente para Fase 5
+
+Fase 4 completada. Sin problemas funcionales observados durante estas comprobaciones. Lógica, eventos y partículas conservados; bitácoras anteriores preservadas. Para Fase 5 queda la evolución autorizada del movimiento, reacción al cursor y microinteracciones. No se continúa automáticamente.
 
 ## 9. Auditoría de Fase 0
 
