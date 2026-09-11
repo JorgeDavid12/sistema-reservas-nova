@@ -193,7 +193,7 @@ Si PowerShell bloquea el wrapper pnpm.ps1 por su política de ejecución, puede 
 | Fase 2 | ✅ Completada | Unidad de validación | Función pura integrada en Crear/Editar; errores por campo y repositorio renombrado |
 | Fase 3 | ✅ Completada | Sistema visual base | Bento reforzado con gradientes, cristal, figuras y primera versión de partículas; revisión en laptop |
 | Fase 4 | ✅ Completada | Glassmorphism y composición | Mayor ancho, cristal refinado, información interna retirada y revisión con 1, 2 y 3 reservas |
-| Fase 5 | ⏳ Pendiente | Partículas e interacciones | Pendiente |
+| Fase 5 | ✅ Completada | Partículas e interacciones | Partículas refinadas, respuesta al cursor, figuras sutiles y microinteracciones verificadas en laptop |
 | Fase 6 | ⏳ Pendiente | Validation Lab y pruebas | Pendiente |
 | Fase 7 | ⏳ Pendiente | Video y auditoría final | Pendiente |
 
@@ -590,6 +590,41 @@ Revisión limitada a laptop/escritorio. Los registros ficticios se introdujeron 
 ### Estado final y pendiente para Fase 5
 
 Fase 4 completada. Sin problemas funcionales observados durante estas comprobaciones. Lógica, eventos y partículas conservados; bitácoras anteriores preservadas. Para Fase 5 queda la evolución autorizada del movimiento, reacción al cursor y microinteracciones. No se continúa automáticamente.
+
+## Fase 5 — Partículas e interacciones
+
+### Mejoras realizadas
+
+Se refinó el canvas existente con 48 partículas de deriva lenta, conexiones tenues entre puntos cercanos y una repulsión corta con entrada y salida suavizadas al acercar o retirar el cursor. El efecto mantiene un carácter ambiental: no dibuja líneas hacia el puntero ni usa movimientos rápidos.
+
+Tarjetas del bento, reservas, estado vacío, botones y diálogos reciben un reflejo localizado por cursor, una iluminación mínima y bordes algo más luminosos. Las figuras del hero y del bento flotan o rotan apenas, con ciclos de 11–20 segundos. Se añadieron transiciones breves para hover y foco, entrada de nuevas reservas, cambio de estado, contadores, confirmaciones y apertura/cierre de diálogos, sin rebotes.
+
+### Rendimiento y movimiento reducido
+
+El canvas conserva el límite de 30 FPS, pausa cuando la pestaña queda oculta y limita el DPR a 1.75. Se redujo la cantidad de partículas de 52 a 48; las conexiones usan distancia al cuadrado y el cursor se procesa en un único `requestAnimationFrame`. Tres observadores acotados atienden solamente lista, contadores y mensaje de confirmación. No se agregaron dependencias ni cálculos ligados a datos del sistema.
+
+Con `prefers-reduced-motion: reduce`, el canvas queda estático con 28 puntos, se eliminan reacción al cursor, flotaciones, animaciones funcionales y transformaciones de hover.
+
+### Archivos modificados
+
+- `src/ui/particles.js`: deriva, repulsión amortiguada, conexiones y límites de renderizado.
+- `src/ui/interactions.js`: iluminación por cursor y disparadores visuales desacoplados del CRUD.
+- `src/styles.css`: reflejos, flotación y microinteracciones.
+- `README.md`: registro de la fase.
+
+### Revisión realizada
+
+- Laptop/escritorio: 1366×768 y 1440×900.
+- Partículas visibles sin dominar el contenido, reacción gradual al cursor y conexiones discretas.
+- Tarjetas, botones, inputs, contadores, estados, mensajes y ambos diálogos revisados sin saltos ni parpadeos.
+- CRUD completo y validaciones comprobados; textos legibles y sin desbordamiento horizontal del documento.
+- Build de producción y revisión de Git completados sin modificar reglas de negocio.
+
+### Estado final
+
+Fase 5 completada. La lógica funcional, datos en memoria, reglas de validación, IDs y eventos permanecen sin cambios.
+
+Siguiente fase: **Fase 6 — Validation Lab y pruebas.** No se inició en este trabajo.
 
 ## 9. Auditoría de Fase 0
 

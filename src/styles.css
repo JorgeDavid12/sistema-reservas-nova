@@ -233,3 +233,57 @@ dialog input, dialog select { background: #0a08187a; border-color: #b6a1d45c; bo
 dialog [aria-invalid="true"] { background: #391426cf; border-color: #ff9eb8; }
 .field-error, #form-error { color: #ffd0de; text-shadow: 0 1px 3px #19000d; }
 @supports not (backdrop-filter: blur(1px)) { .metric, .reservation-card, .empty-state, dialog { background-color: #171326f5; } }
+
+/* Fase 5: profundidad ambiental, cursor y microinteracciones. */
+.metric, .reservation-card, .empty-state { transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease, filter .22s ease; }
+.metric:hover, .reservation-card:hover, .empty-state:hover { transform: translateY(-2px); filter: brightness(1.035); }
+.metric::before, .reservation-card::before, .empty-state::before { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: .58; background: linear-gradient(125deg, #ffffff15, transparent 34%, transparent 72%, #cbd8ff0a), radial-gradient(230px circle at var(--cursor-x, -400px) var(--cursor-y, -400px), #d8c4ff2e, #91dfff0d 42%, transparent 72%); transition: opacity .25s ease; }
+.metric.cursor-near::before, .reservation-card.cursor-near::before, .empty-state.cursor-near::before { opacity: 1; }
+.metric.cursor-near, .reservation-card.cursor-near, .empty-state.cursor-near { border-color: #d7c2ff78; box-shadow: inset 0 1px #ffffff61, inset 1px 0 #ffffff18, 0 18px 42px #0005, 0 0 26px #9671ef18; }
+.empty-state > * { position: relative; }
+button { position: relative; isolation: isolate; overflow: hidden; transition: color .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease, filter .18s ease; }
+button::before { content: ''; position: absolute; z-index: -1; width: 100px; height: 100px; left: calc(var(--cursor-x, -150px) - 50px); top: calc(var(--cursor-y, -150px) - 50px); border-radius: 50%; pointer-events: none; background: radial-gradient(circle, #fff2, transparent 68%); opacity: 0; transition: opacity .22s ease; }
+button.cursor-near::before { opacity: 1; }
+button:hover { transform: translateY(-1px); filter: brightness(1.06); }
+button:active { transform: translateY(0) scale(.985); }
+button.primary:hover { border-color: #d3c5ff8c; box-shadow: inset 0 1px #ffffff73, 0 8px 28px #6d4fe05c, 0 0 24px #8e6bff3d; }
+input, select { transition: background-color .18s ease, border-color .18s ease, box-shadow .18s ease; }
+input:focus, select:focus { background-color: #100d20; border-color: #c2a6ff; box-shadow: 0 0 0 3px #a77aff1f, 0 0 22px #7e55d616, inset 0 1px #ffffff0c; }
+dialog { --dialog-glow: radial-gradient(260px circle at var(--cursor-x, -500px) var(--cursor-y, -500px), #d8c6ff20, transparent 72%); opacity: 0; transform: translateY(7px) scale(.985); transition: opacity .2s ease, transform .2s ease, display .2s allow-discrete, overlay .2s allow-discrete, border-color .22s ease, box-shadow .22s ease; }
+dialog[open] { opacity: 1; transform: translateY(0) scale(1); background-image: var(--dialog-glow), radial-gradient(ellipse at 0 0, #c391ff30, transparent 55%), radial-gradient(ellipse at 100% 100%, #30cfdd20, transparent 55%), linear-gradient(125deg, #e7dcff13, #100e219e 55%, #1d304675); }
+dialog.cursor-near { border-color: #f0e6ff8c; box-shadow: inset 0 1px #fff9, inset 1px 0 #e9dcff32, inset 0 -1px #bbcdff30, 0 32px 90px #0009, 0 0 62px #8760e530; }
+dialog::backdrop { opacity: 0; transition: opacity .2s ease, display .2s allow-discrete, overlay .2s allow-discrete; }
+dialog[open]::backdrop { opacity: 1; }
+@starting-style { dialog[open] { opacity: 0; transform: translateY(7px) scale(.985); } dialog[open]::backdrop { opacity: 0; } }
+.hero-art { animation-duration: 12s; }
+.hero-sphere { animation: esfera-viva 11s ease-in-out infinite alternate; }
+.hero-ring { animation: orbita-viva 15s ease-in-out infinite alternate; }
+.hero-star { animation: estrella-viva 13s ease-in-out infinite alternate; }
+.orb-violet { animation: deriva-violeta 16s ease-in-out infinite alternate; }
+.orb-blue { animation: deriva-azul 19s ease-in-out infinite alternate; }
+.orb-red { animation: deriva-roja 17s ease-in-out infinite alternate; }
+.orb-green { animation: deriva-verde 20s ease-in-out infinite alternate; }
+.orbit-decoration::after { animation: anillo-vivo 14s ease-in-out infinite alternate; }
+.metric-symbol::after { animation: simbolo-vivo 12s ease-in-out infinite alternate; }
+.reservation-enter { animation: reserva-entra .28s ease-out both; }
+.state-updated .status { animation: estado-cambia .32s ease-out; }
+.counter-updated { animation: contador-cambia .3s ease-out; }
+.feedback-visible { animation: confirma-accion .28s ease-out; }
+@keyframes esfera-viva { to { transform: translate(2px, -3px) scale(1.025); filter: brightness(1.08); } }
+@keyframes orbita-viva { to { transform: rotate(-24deg) translateY(-2px); } }
+@keyframes estrella-viva { to { transform: translate(2px, 3px) rotate(5deg); opacity: .82; } }
+@keyframes deriva-violeta { to { transform: translate(5px, 3px) scale(1.015); } }
+@keyframes deriva-azul { to { transform: translate(-4px, 4px) rotate(1.5deg); } }
+@keyframes deriva-roja { to { transform: translate(4px, -3px) rotate(-1.5deg); } }
+@keyframes deriva-verde { from { transform: rotate(-9deg); } to { transform: rotate(-6deg) translate(-4px, 3px); } }
+@keyframes anillo-vivo { to { transform: rotate(-15deg) translateX(2px); opacity: .72; } }
+@keyframes simbolo-vivo { to { transform: translateY(-2px) rotate(2deg); filter: brightness(1.08); } }
+@keyframes reserva-entra { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes estado-cambia { 45% { border-color: #e9dcffb0; box-shadow: 0 0 18px #9d7cff38, inset 0 1px #ffffff26; } }
+@keyframes contador-cambia { 45% { transform: translateY(-2px); filter: brightness(1.25); text-shadow: 0 0 18px currentColor; } }
+@keyframes confirma-accion { from { opacity: .35; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .hero-art, .hero-sphere, .hero-ring, .hero-star, .bento-orb, .orbit-decoration::after, .metric-symbol::after, .reservation-enter, .state-updated .status, .counter-updated, .feedback-visible { animation: none !important; }
+  .metric:hover, .reservation-card:hover, .empty-state:hover, button:hover, button:active, dialog { transform: none; filter: none; }
+  .metric::before, .reservation-card::before, .empty-state::before, button::before { display: none; }
+}
