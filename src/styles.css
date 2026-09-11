@@ -287,3 +287,70 @@ dialog[open]::backdrop { opacity: 1; }
   .metric:hover, .reservation-card:hover, .empty-state:hover, button:hover, button:active, dialog { transform: none; filter: none; }
   .metric::before, .reservation-card::before, .empty-state::before, button::before { display: none; }
 }
+
+/* Fase 6: Validation Lab y equilibrio final de la composición. */
+.header { position: relative; isolation: isolate; overflow: hidden; background: linear-gradient(112deg, #d9c9ff18, #15132b9e 42%, #17334a7d 78%, #80f1df12); border-color: #e0d5ff55; backdrop-filter: blur(22px) saturate(135%); box-shadow: inset 0 1px #ffffff50, inset 1px 0 #ffffff13, 0 18px 42px #0005, 0 0 42px #6848d514; }
+.header::before { content: ''; position: absolute; z-index: -1; inset: -80px 20% -100px 28%; background: radial-gradient(circle at 18% 50%, #8b45ff55, transparent 28%), radial-gradient(circle at 78% 45%, #20cbd43d, transparent 25%); filter: blur(18px); pointer-events: none; }
+.header::after { content: ''; position: absolute; z-index: -1; right: 12%; top: -38px; width: 170px; height: 92px; border: 1px solid #b9d9ff24; border-radius: 50%; transform: rotate(-12deg); box-shadow: 0 0 30px #6f76ff14; pointer-events: none; }
+.header > * { position: relative; z-index: 1; }
+.brand-icon { overflow: visible; }
+.brand-icon svg { width: 32px; height: 32px; fill: #7863ef1f; stroke: #ecf7ff; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 7px #8c8affb0); }
+.brand-icon .logo-orbit { fill: none; stroke: #89f4e7; stroke-width: 1.4; opacity: .9; }
+.brand-icon .logo-node { fill: #bffff4; stroke: none; filter: drop-shadow(0 0 4px #76ffef); }
+.reservation-grid:has(> :only-child) { position: relative; isolation: isolate; min-height: 305px; background: radial-gradient(circle at 79% 42%, #6334d91c, transparent 16%), radial-gradient(circle at 92% 72%, #0dbeb21a, transparent 14%); }
+.reservation-grid:has(> :only-child)::before { content: ''; position: absolute; z-index: -1; right: 12%; top: 45px; width: 126px; height: 126px; border-radius: 50%; background: radial-gradient(circle at 28% 24%, #d9ffff, #7887ff 22%, #7133d6 54%, #140d34 78%); box-shadow: inset -14px -14px 25px #0a061e8c, 0 0 42px #7563ff4a; opacity: .82; pointer-events: none; }
+.reservation-grid:has(> :only-child)::after { content: ''; position: absolute; z-index: -1; right: 7%; top: 78px; width: 230px; height: 82px; border: 1px solid #b8cbff66; border-radius: 50%; transform: rotate(-18deg); box-shadow: 0 0 18px #7f72ff24, inset 0 0 18px #7f72ff18; opacity: .72; pointer-events: none; }
+.validation-lab { position: relative; isolation: isolate; overflow: hidden; margin-top: 34px; padding: 26px 28px 22px; border: 1px solid #d9ccff4d; border-radius: 26px; background: radial-gradient(circle at 92% 12%, #27d8c825, transparent 22%), radial-gradient(circle at 12% 100%, #7134de30, transparent 30%), linear-gradient(125deg, #e5dbff16, #100e2091 48%, #1732486b); backdrop-filter: blur(24px) saturate(130%); box-shadow: inset 0 1px #ffffff5e, inset 1px 0 #ffffff14, 0 22px 55px #0005, 0 0 45px #7651e51a; }
+.validation-lab::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(130deg, #ffffff0e, transparent 28%, transparent 68%, #9eeeff08); pointer-events: none; }
+.lab-heading, .lab-footer { display: flex; justify-content: space-between; align-items: center; gap: 22px; }
+.lab-heading { position: relative; z-index: 1; padding-bottom: 20px; border-bottom: 1px solid #d9ccff26; }
+.lab-heading h2 { margin: 3px 0 5px; font-size: 1.55rem; }
+.lab-heading h2 span { color: #a992ff; }
+.lab-unit { flex: 0 0 auto; padding: 10px 14px; border: 1px solid #aee9e63b; border-radius: 12px; background: #50d9d30b; box-shadow: inset 0 1px #ffffff18; }
+.lab-unit span, .lab-block > span, .lab-footer > div > span { display: block; color: #aeb0c4; font-size: .61rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+.lab-unit code { display: block; margin-top: 2px; color: #bffaf0; font-size: .9rem; }
+.lab-unit small { display: block; margin-top: 2px; color: #999eb5; font-size: .57rem; letter-spacing: .08em; text-transform: uppercase; }
+.lab-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 285px minmax(0, 1fr); gap: 24px; padding: 22px 0; }
+.lab-controls { min-width: 0; padding-right: 23px; border-right: 1px solid #d9ccff24; }
+.lab-controls > label { color: #e6def5; font-size: .7rem; font-weight: 650; letter-spacing: .04em; }
+.lab-controls select { margin: 7px 0 8px; background: #090817a6; }
+#lab-case-description { min-height: 38px; color: #bbb6cd; line-height: 1.45; }
+.lab-case-list { display: grid; gap: 6px; margin: 14px 0; }
+.lab-case { display: flex; justify-content: space-between; align-items: center; gap: 10px; width: 100%; padding: 7px 10px; border-color: #cac0e721; background: #ffffff05; color: #c3bfd0; font-size: .69rem; font-weight: 500; text-align: left; }
+.lab-case strong { color: #90d7c0; font-size: .59rem; letter-spacing: .12em; }
+.lab-case.is-selected { color: #f4efff; border-color: #a98cff72; background: linear-gradient(100deg, #7449da2e, #4e9fb315); box-shadow: inset 2px 0 #a888ff; }
+.lab-case.is-fail strong { color: #ffafc4; }
+#run-validation-lab { width: 100%; padding-block: 9px; }
+.lab-results { display: grid; grid-template-columns: 1.18fr .82fr 1.12fr; gap: 12px; min-width: 0; }
+.lab-block { position: relative; min-width: 0; overflow: hidden; padding: 15px 16px; border: 1px solid #d8ccff32; border-radius: 16px; background: linear-gradient(145deg, #ffffff0d, #09081780); box-shadow: inset 0 1px #ffffff1f, 0 10px 24px #0003; }
+.lab-block::after { content: ''; position: absolute; top: 0; left: 12%; width: 64%; height: 1px; background: linear-gradient(90deg, transparent, #e3d9ff70, transparent); }
+.lab-block > span { color: #bdb5d2; }
+.lab-block pre { max-height: 330px; overflow: auto; margin: 12px 0 0; color: #d7d2e4; font: 500 .67rem/1.55 ui-monospace, 'Cascadia Code', Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; scrollbar-width: thin; scrollbar-color: #806bb0 #0b0916; }
+.lab-input-block pre { color: #cadbff; }
+.lab-footer { position: relative; z-index: 1; padding-top: 17px; border-top: 1px solid #d9ccff26; }
+.lab-footer > div { display: flex; align-items: center; gap: 12px; }
+.lab-summary { color: #9cdcc8; font-size: .74rem; }
+.lab-summary.is-fail { color: #ffb1c5; }
+.lab-status { min-width: 67px; padding: 5px 11px; border: 1px solid; border-radius: 999px; font-size: .7rem; letter-spacing: .13em; text-align: center; }
+.lab-status.is-pass { color: #b9f5dc; border-color: #66dcb663; background: #39bf8c14; box-shadow: 0 0 20px #39d69a1e, inset 0 1px #ffffff15; }
+.lab-status.is-fail { color: #ffc0d0; border-color: #ee78945c; background: #d84d7514; }
+.lab-refreshed .lab-status { animation: estado-lab .36s ease-out; }
+.lab-planet { position: absolute; z-index: -1; right: -34px; bottom: -42px; width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle at 28% 24%, #cffff7, #36baa8 24%, #3248aa 58%, #101027 78%); opacity: .27; box-shadow: 0 0 42px #48dec242; pointer-events: none; }
+.lab-orbit { position: absolute; z-index: -1; right: -55px; bottom: -8px; width: 175px; height: 60px; border: 1px solid #a2e7df52; border-radius: 50%; transform: rotate(-19deg); opacity: .5; pointer-events: none; }
+@keyframes estado-lab { 45% { transform: scale(1.045); filter: brightness(1.25); } }
+@media (max-width: 1100px) {
+  .lab-grid { grid-template-columns: 250px minmax(0, 1fr); gap: 18px; }
+  .lab-results { grid-template-columns: 1fr 1fr; }
+  .lab-input-block { grid-column: 1 / -1; }
+  .lab-block pre { max-height: 220px; }
+}
+@media (max-width: 760px) {
+  .validation-lab { padding: 22px 20px; }
+  .lab-heading, .lab-footer { align-items: flex-start; flex-direction: column; }
+  .lab-grid, .lab-results { grid-template-columns: 1fr; }
+  .lab-controls { padding: 0 0 20px; border-right: 0; border-bottom: 1px solid #d9ccff24; }
+  .lab-input-block { grid-column: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lab-refreshed .lab-status { animation: none !important; }
+}

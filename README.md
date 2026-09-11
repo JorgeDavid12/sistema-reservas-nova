@@ -176,9 +176,10 @@ Comandos adicionales:
 ```sh
 pnpm build
 pnpm preview
+pnpm test:validation
 ```
 
-`build` genera `dist/`; `preview` sirve esa compilación localmente. No existe un comando de pruebas de validación en esta fase.
+`build` genera `dist/`; `preview` sirve esa compilación localmente. `test:validation` ejecuta los seis casos aislados de `validarReserva()` y devuelve un reporte de entrada, esperado, obtenido y PASS/FAIL.
 
 Si PowerShell bloquea el wrapper pnpm.ps1 por su política de ejecución, puede utilizarse `pnpm.cmd` con los mismos argumentos; por ejemplo, `pnpm.cmd dev`. No es necesario cambiar la política de ejecución.
 
@@ -194,7 +195,7 @@ Si PowerShell bloquea el wrapper pnpm.ps1 por su política de ejecución, puede 
 | Fase 3 | ✅ Completada | Sistema visual base | Bento reforzado con gradientes, cristal, figuras y primera versión de partículas; revisión en laptop |
 | Fase 4 | ✅ Completada | Glassmorphism y composición | Mayor ancho, cristal refinado, información interna retirada y revisión con 1, 2 y 3 reservas |
 | Fase 5 | ✅ Completada | Partículas e interacciones | Partículas refinadas, respuesta al cursor, figuras sutiles y microinteracciones verificadas en laptop |
-| Fase 6 | ⏳ Pendiente | Validation Lab y pruebas | Pendiente |
+| Fase 6 | ✅ Completada | Validation Lab y pruebas | Panel integrado, seis pruebas aisladas y ajustes finales de header, logo y composición |
 | Fase 7 | ⏳ Pendiente | Video y auditoría final | Pendiente |
 
 ## Regla de mantenimiento
@@ -625,6 +626,46 @@ Con `prefers-reduced-motion: reduce`, el canvas queda estático con 28 puntos, s
 Fase 5 completada. La lógica funcional, datos en memoria, reglas de validación, IDs y eventos permanecen sin cambios.
 
 Siguiente fase: **Fase 6 — Validation Lab y pruebas.** No se inició en este trabajo.
+
+## Fase 6 — Validation Lab y pruebas
+
+### Implementación del Validation Lab
+
+Se agregó una sección integrada al dashboard que identifica la unidad `validarReserva()`, explica el caso seleccionado y muestra datos de entrada, resultado esperado, resultado obtenido y estado final PASS/FAIL. Los seis casos pueden recorrerse desde el selector o desde su lista y el botón **Ejecutar los 6 casos** vuelve a calcular el reporte completo.
+
+### Prueba manual y aislamiento
+
+`src/pruebas/pruebaValidarReserva.js` define y compara seis escenarios: reserva válida, correo inválido, horario inválido, asistentes inválidos, capacidad superada y varios errores simultáneos. El comparador verifica tanto `valido` como el orden exacto de los códigos y captura excepciones como FAIL.
+
+La prueba importa únicamente `validarReserva.js` y usa datos literales; no importa DOM, UI, CRUD, catálogo, almacenamiento ni APIs. `src/ui/validationLab.js` es solo un adaptador visual del mismo reporte. La ejecución independiente queda disponible mediante `pnpm test:validation`.
+
+### Ajustes visuales
+
+El header recibió mayor transparencia, luces internas, borde y profundidad coherentes con las tarjetas glassmorphism. La letra «N» fue reemplazada por un símbolo SVG propio que combina calendario, nodo y órbita. Cuando existe una sola reserva, un planeta con anillo ocupa de forma decorativa el espacio derecho sin alterar el ancho de la tarjeta ni cubrir controles. El Lab utiliza superficies oscuras, gradientes, bloques ordenados y acentos verde/rojo para que el resultado sea fácil de explicar en video.
+
+### Archivos modificados
+
+- `index.html`: nuevo logo SVG, estructura del Validation Lab y carga de su módulo.
+- `src/pruebas/pruebaValidarReserva.js`: casos, comparación, try-catch y reporte manual.
+- `src/ui/validationLab.js`: ejecución y presentación visual aislada.
+- `src/styles.css`: estilos del Lab y ajustes de header, logo y composición de una reserva.
+- `package.json`: comando `test:validation`.
+- `README.md`: bitácora y ejecución local actualizadas.
+
+### Revisión realizada
+
+- `pnpm test:validation`: 6/6 casos PASS con entrada, esperado y obtenido visibles.
+- Navegador de laptop a 1366×768 y 1440×900: estado vacío, una reserva, header, logo, composición decorativa y Lab revisados sin desbordamiento horizontal.
+- Selección del caso con varios errores y reejecución completa desde el Lab: 6/6 aprobados y estado final PASS.
+- Crear reserva válida, intentar edición con correo inválido y guardar después de corregirlo; ID y total conservados.
+- CRUD completo comprobado desde sus módulos; `main.js`, CRUD, unidad de validación, catálogo y render funcional permanecen sin cambios.
+- Consola del navegador sin errores ni advertencias; build de producción completado.
+
+### Estado final
+
+Fase 6 completada. El Validation Lab demuestra la unidad real sin duplicar sus reglas y los ajustes visuales no modifican el comportamiento funcional ni la persistencia en memoria.
+
+Siguiente fase: **Fase 7 — Video y auditoría final.** No se inició en este trabajo.
 
 ## 9. Auditoría de Fase 0
 
