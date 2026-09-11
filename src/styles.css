@@ -318,9 +318,14 @@ dialog[open]::backdrop { opacity: 1; }
 .lab-case-list { display: grid; gap: 6px; margin: 14px 0; }
 .lab-case { display: flex; justify-content: space-between; align-items: center; gap: 10px; width: 100%; padding: 7px 10px; border-color: #cac0e721; background: #ffffff05; color: #c3bfd0; font-size: .69rem; font-weight: 500; text-align: left; }
 .lab-case strong { color: #90d7c0; font-size: .59rem; letter-spacing: .12em; }
+.lab-case.is-ready strong { color: #a9a4ba; }
+.lab-case.is-running strong { color: #d6c8ff; animation: lab-ejecutando .72s ease-in-out infinite alternate; }
 .lab-case.is-selected { color: #f4efff; border-color: #a98cff72; background: linear-gradient(100deg, #7449da2e, #4e9fb315); box-shadow: inset 2px 0 #a888ff; }
 .lab-case.is-fail strong { color: #ffafc4; }
 #run-validation-lab { width: 100%; padding-block: 9px; }
+#run-validation-lab:disabled { cursor: wait; opacity: .72; filter: saturate(.75); }
+.lab-execution-message { min-height: 18px; margin: 8px 2px 0; color: #9cdcc8; font-size: .69rem; line-height: 1.4; }
+.lab-execution-message.is-fail { color: #ffb1c5; }
 .lab-results { display: grid; grid-template-columns: 1.18fr .82fr 1.12fr; gap: 12px; min-width: 0; }
 .lab-block { position: relative; min-width: 0; overflow: hidden; padding: 15px 16px; border: 1px solid #d8ccff32; border-radius: 16px; background: linear-gradient(145deg, #ffffff0d, #09081780); box-shadow: inset 0 1px #ffffff1f, 0 10px 24px #0003; }
 .lab-block::after { content: ''; position: absolute; top: 0; left: 12%; width: 64%; height: 1px; background: linear-gradient(90deg, transparent, #e3d9ff70, transparent); }
@@ -330,14 +335,21 @@ dialog[open]::backdrop { opacity: 1; }
 .lab-footer { position: relative; z-index: 1; padding-top: 17px; border-top: 1px solid #d9ccff26; }
 .lab-footer > div { display: flex; align-items: center; gap: 12px; }
 .lab-summary { color: #9cdcc8; font-size: .74rem; }
+.lab-summary.is-ready { color: #b9b4c9; }
+.lab-summary.is-running { color: #d6c8ff; }
 .lab-summary.is-fail { color: #ffb1c5; }
 .lab-status { min-width: 67px; padding: 5px 11px; border: 1px solid; border-radius: 999px; font-size: .7rem; letter-spacing: .13em; text-align: center; }
+.lab-status.is-ready { color: #d3cde0; border-color: #b9aed13d; background: #ffffff08; letter-spacing: .04em; }
+.lab-status.is-running { color: #e1d7ff; border-color: #a88cff5c; background: #815edf18; letter-spacing: .04em; animation: lab-ejecutando .72s ease-in-out infinite alternate; }
 .lab-status.is-pass { color: #b9f5dc; border-color: #66dcb663; background: #39bf8c14; box-shadow: 0 0 20px #39d69a1e, inset 0 1px #ffffff15; }
 .lab-status.is-fail { color: #ffc0d0; border-color: #ee78945c; background: #d84d7514; }
 .lab-refreshed .lab-status { animation: estado-lab .36s ease-out; }
+.lab-refreshed .lab-summary, .lab-refreshed .lab-case strong, .lab-refreshed .lab-execution-message { animation: resultado-lab .38s ease-out both; }
 .lab-planet { position: absolute; z-index: -1; right: -34px; bottom: -42px; width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle at 28% 24%, #cffff7, #36baa8 24%, #3248aa 58%, #101027 78%); opacity: .27; box-shadow: 0 0 42px #48dec242; pointer-events: none; }
 .lab-orbit { position: absolute; z-index: -1; right: -55px; bottom: -8px; width: 175px; height: 60px; border: 1px solid #a2e7df52; border-radius: 50%; transform: rotate(-19deg); opacity: .5; pointer-events: none; }
 @keyframes estado-lab { 45% { transform: scale(1.045); filter: brightness(1.25); } }
+@keyframes lab-ejecutando { to { opacity: .52; } }
+@keyframes resultado-lab { from { opacity: .25; transform: translateY(3px); } }
 @media (max-width: 1100px) {
   .lab-grid { grid-template-columns: 250px minmax(0, 1fr); gap: 18px; }
   .lab-results { grid-template-columns: 1fr 1fr; }
@@ -352,7 +364,7 @@ dialog[open]::backdrop { opacity: 1; }
   .lab-input-block { grid-column: auto; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .lab-refreshed .lab-status { animation: none !important; }
+  .lab-refreshed .lab-status, .lab-refreshed .lab-summary, .lab-refreshed .lab-case strong, .lab-refreshed .lab-execution-message, .lab-case.is-running strong, .lab-status.is-running { animation: none !important; }
 }
 
 /* Fase 7: legibilidad y continuidad final del fondo. */

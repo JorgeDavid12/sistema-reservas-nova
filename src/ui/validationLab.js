@@ -10,6 +10,8 @@ const descripcion = document.querySelector('#lab-case-description');
 const estado = document.querySelector('#lab-status');
 const resumen = document.querySelector('#lab-summary');
 const botonEjecutar = document.querySelector('#run-validation-lab');
+const mensajeEjecucion = document.querySelector('#lab-execution-message');
+const laboratorio = document.querySelector('#validation-lab');
 let resultados = [];
 
 function json(valor) {
@@ -17,46 +19,94 @@ function json(valor) {
 }
 
 function mostrarCaso(id) {
-  const resultado = resultados.find(item => item.id === id) ?? resultados[0];
-  if (!resultado) return;
-  selector.value = resultado.id;
-  descripcion.textContent = resultado.descripcion;
-  entrada.textContent = json(resultado.entrada);
-  esperado.textContent = json(resultado.esperado);
-  obtenido.textContent = json(resultado.excepcion
-    ? { excepcion: resultado.excepcion }
-    : { ...resultado.obtenido, errores: resultado.errores.map(error => error.mensaje) });
-  estado.textContent = resultado.pass ? 'PASS' : 'FAIL';
-  estado.className = `lab-status ${resultado.pass ? 'is-pass' : 'is-fail'}`;
-  lista.querySelectorAll('[data-case]').forEach(item => item.classList.toggle('is-selected', item.dataset.case === resultado.id));
+  const caso = CASOS_VALIDACION.find(item => item.id === id) ?? CASOS_VALIDACION[0];
+  const resultado = resultados.find(item => item.id === caso.id);
+  selector.value = caso.id;
+  descripcion.textContent = caso.descripcion;
+  entrada.textContent = json(caso.entrada);
+  esperado.textContent = json(caso.esperado);
+  obtenido.textContent = resultado
+    ? json(resultado.excepcion
+      ? { excepcion: resultado.excepcion }
+      : { ...resultado.obtenido, errores: resultado.errores.map(error => error.mensaje) })
+    : 'Pendiente de ejecución.';
+  lista.querySelectorAll('[data-case]').forEach(item => item.classList.toggle('is-selected', item.dataset.case === caso.id));
 }
 
-function renderizarLista() {
-  lista.replaceChildren(...resultados.map(resultado => {
+function renderizarLista(modo = 'preparado') {
+  const casos = resultados.length ? resultados : CASOS_VALIDACION;
+  lista.replaceChildren(...casos.map(caso => {
     const item = document.createElement('button');
     item.type = 'button';
-    item.className = `lab-case ${resultado.pass ? 'is-pass' : 'is-fail'}`;
-    item.dataset.case = resultado.id;
+    const claseResultado = modo === 'ejecutando'
+      ? 'is-running'
+      : resultados.length
+        ? (caso.pass ? 'is-pass' : 'is-fail')
+        : 'is-ready';
+    item.className = `lab-case ${claseResultado}`;
+    item.dataset.case = caso.id;
+    item.disabled = modo === 'ejecutando';
     const nombre = document.createElement('span');
     const estadoCaso = document.createElement('strong');
-    nombre.textContent = resultado.nombre;
-    estadoCaso.textContent = resultado.pass ? 'PASS' : 'FAIL';
+    nombre.textContent = caso.nombre;
+    estadoCaso.textContent = modo === 'ejecutando'
+      ? 'Ejecutando...'
+      : resultados.length
+        ? (caso.pass ? 'PASS' : 'FAIL')
+        : 'Preparado';
     item.append(nombre, estadoCaso);
     return item;
   }));
 }
 
-function ejecutarLab() {
+function prepararLab() {
+  renderizarLista();
+  mostrarCaso(CASOS_VALIDACION[0].id);
+  resumen.textContent = `${CASOS_VALIDACION.length} casos preparados`;
+  resumen.className = 'lab-summary is-ready';
+  estado.textContent = 'Listo para ejecutar';
+  estado.className = 'lab-status is-ready';
+  mensajeEjecucion.textContent = '';
+}
+
+function esperar(ms) {
+  return new Promise(resolve => window.setTimeout(resolve, ms));
+}
+
+async function ejecutarLab() {
   const seleccionado = selector.value || CASOS_VALIDACION[0].id;
+  botonEjecutar.disabled = true;
+  botonEjecutar.textContent = 'Ejecutando pruebas...';
+  selector.disabled = true;
+  mensajeEjecucion.textContent = '';
+  resumen.textContent = `Ejecutando ${CASOS_VALIDACION.length} casos...`;
+  resumen.className = 'lab-summary is-running';
+  estado.textContent = 'Ejecutando...';
+  estado.className = 'lab-status is-running';
+  resultados = [];
+  renderizarLista('ejecutando');
+  mostrarCaso(seleccionado);
+
+  await esperar(650);
   resultados = ejecutarSuiteValidacion();
   const aprobados = resultados.filter(resultado => resultado.pass).length;
+  const todoCorrecto = aprobados === resultados.length;
   resumen.textContent = `${aprobados}/${resultados.length} casos aprobados`;
-  resumen.className = `lab-summary ${aprobados === resultados.length ? 'is-pass' : 'is-fail'}`;
+  resumen.className = `lab-summary ${todoCorrecto ? 'is-pass' : 'is-fail'}`;
+  estado.textContent = todoCorrecto ? 'PASS' : 'FAIL';
+  estado.className = `lab-status ${todoCorrecto ? 'is-pass' : 'is-fail'}`;
+  mensajeEjecucion.textContent = todoCorrecto
+    ? '✓ Pruebas ejecutadas correctamente'
+    : `Se detectaron ${resultados.length - aprobados} caso(s) con FAIL`;
+  mensajeEjecucion.className = `lab-execution-message ${todoCorrecto ? 'is-pass' : 'is-fail'}`;
   renderizarLista();
   mostrarCaso(seleccionado);
-  document.querySelector('#validation-lab').classList.remove('lab-refreshed');
-  void document.querySelector('#validation-lab').offsetWidth;
-  document.querySelector('#validation-lab').classList.add('lab-refreshed');
+  selector.disabled = false;
+  botonEjecutar.disabled = false;
+  botonEjecutar.textContent = 'Ejecutar los 6 casos';
+  laboratorio.classList.remove('lab-refreshed');
+  void laboratorio.offsetWidth;
+  laboratorio.classList.add('lab-refreshed');
 }
 
 selector.replaceChildren(...CASOS_VALIDACION.map(caso => {
@@ -71,4 +121,4 @@ lista.addEventListener('click', event => {
   if (item) mostrarCaso(item.dataset.case);
 });
 botonEjecutar.addEventListener('click', ejecutarLab);
-ejecutarLab();
+prepararLab();
