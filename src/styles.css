@@ -354,3 +354,60 @@ dialog[open]::backdrop { opacity: 1; }
 @media (prefers-reduced-motion: reduce) {
   .lab-refreshed .lab-status { animation: none !important; }
 }
+
+/* Fase 7: legibilidad y continuidad final del fondo. */
+.ambient-scene { overflow: visible; background: radial-gradient(ellipse 70% 62% at 2% 24%, #6425aa22, transparent 74%), radial-gradient(ellipse 66% 54% at 98% 14%, #194edb1d, transparent 76%), radial-gradient(ellipse 70% 60% at 100% 56%, #a72b5118, transparent 76%), radial-gradient(ellipse 72% 62% at 72% 100%, #087e841d, transparent 78%); }
+.ambient-light { width: min(900px, 75vw); height: 640px; filter: blur(110px); opacity: .4; }
+.light-violet { left: -28%; top: -2%; background: radial-gradient(ellipse, #7626dc9c, #5521a552 38%, transparent 78%); }
+.light-blue { right: -18%; top: -38%; background: radial-gradient(ellipse, #2759e899, #263aa552 40%, transparent 79%); }
+.light-coral { right: -35%; top: 20%; background: radial-gradient(ellipse, #c92b6575, #d9582738 42%, transparent 79%); }
+.light-cyan { right: -16%; bottom: -40%; background: radial-gradient(ellipse, #0bbfae7d, #1554783d 42%, transparent 80%); }
+.page-heading::before { inset: -70px -2% -65px 18%; border-radius: 50%; background: radial-gradient(ellipse at 70% 52%, #5949ef30, #275bd616 34%, transparent 74%); filter: blur(24px); }
+.reservation-grid:has(> :only-child) { background: none; }
+.reservation-grid:has(> :only-child)::before { z-index: 0; box-shadow: inset -14px -14px 25px #0a061e8c, 0 0 65px #7563ff3d, 0 0 110px #2d74da1a; }
+.reservation-grid:has(> :only-child)::after { z-index: 0; }
+.reservation-grid:has(> :only-child) > .reservation-card { z-index: 1; }
+.brand .small { font-size: .78rem; line-height: 1.4; }
+.page-heading .muted { font-size: .92rem; line-height: 1.55; }
+.dashboard-label { font-size: .82rem; }
+.metric-label { font-size: .81rem; line-height: 1.35; }
+.metric small { font-size: .75rem; line-height: 1.4; }
+#feedback { font-size: .82rem; line-height: 1.45; }
+.section-heading h2 { font-size: 1.2rem; }
+.section-heading .small { font-size: .82rem; }
+.section-actions { display: flex; align-items: center; gap: 15px; }
+.lab-access, .lab-access:visited { display: inline-flex; align-items: center; gap: 7px; padding: 5px 10px; color: #e1d8ff; border: 1px solid #b7a1e95c; border-radius: 999px; background: #8f63d921; font-size: .74rem; font-weight: 600; line-height: 1.3; text-decoration: none; transition: color .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease; }
+.lab-access:hover { color: #fff; background: #9b77e51c; border-color: #c8b3ff7a; box-shadow: 0 0 18px #835de721; }
+.room-name { font-size: .78rem; line-height: 1.4; }
+.reservation-card { padding-block: 18px; }
+.reservation-card > h3 { font-size: 1.22rem; line-height: 1.3; }
+.reservation-card > .small { margin-top: 4px; font-size: .82rem; line-height: 1.45; }
+.status { padding: 4px 10px; font-size: .72rem; line-height: 1.3; }
+.reservation-card dl { margin-block: 12px 10px; font-size: .82rem; line-height: 1.5; }
+.reservation-card dl div { margin-block: 5px; }
+.reservation-card label { font-size: .74rem; line-height: 1.4; }
+.reservation-card select { padding: 8px 10px; font-size: .82rem; }
+.card-actions { margin-top: 10px; }
+.card-actions button { padding: 9px 12px; font-size: .8rem; }
+.empty-copy .muted { font-size: .86rem; line-height: 1.55; }
+dialog > .muted { font-size: .84rem; }
+dialog label, .field label { font-size: .82rem; line-height: 1.4; }
+.field small { font-size: .74rem; line-height: 1.4; }
+#form-error { font-size: .84rem; line-height: 1.45; }
+.field-error { font-size: .74rem; }
+.form-actions button { font-size: .88rem; }
+.lab-heading .small { font-size: .78rem; line-height: 1.5; }
+.lab-unit span, .lab-block > span, .lab-footer > div > span { font-size: .66rem; }
+.lab-unit code { font-size: .96rem; }
+.lab-unit small { font-size: .62rem; }
+.lab-controls > label { font-size: .76rem; }
+.lab-controls select { font-size: .86rem; }
+#lab-case-description { font-size: .75rem; line-height: 1.5; }
+.lab-case { font-size: .75rem; line-height: 1.35; }
+.lab-case strong { font-size: .64rem; }
+.lab-block pre { font-size: .72rem; line-height: 1.62; }
+.lab-summary { font-size: .8rem; }
+.lab-status { font-size: .75rem; }
+@media (max-width: 760px) {
+  .section-actions { align-items: flex-end; flex-direction: column; gap: 7px; }
+}

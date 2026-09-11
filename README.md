@@ -196,7 +196,7 @@ Si PowerShell bloquea el wrapper pnpm.ps1 por su política de ejecución, puede 
 | Fase 4 | ✅ Completada | Glassmorphism y composición | Mayor ancho, cristal refinado, información interna retirada y revisión con 1, 2 y 3 reservas |
 | Fase 5 | ✅ Completada | Partículas e interacciones | Partículas refinadas, respuesta al cursor, figuras sutiles y microinteracciones verificadas en laptop |
 | Fase 6 | ✅ Completada | Validation Lab y pruebas | Panel integrado, seis pruebas aisladas y ajustes finales de header, logo y composición |
-| Fase 7 | ⏳ Pendiente | Video y auditoría final | Pendiente |
+| Fase 7 | ✅ Completada | Auditoría final y videotutorial | Legibilidad y fondo pulidos, rúbrica auditada, recorrido verificado y material privado de grabación preparado |
 
 ## Regla de mantenimiento
 
@@ -666,6 +666,44 @@ El header recibió mayor transparencia, luces internas, borde y profundidad cohe
 Fase 6 completada. El Validation Lab demuestra la unidad real sin duplicar sus reglas y los ajustes visuales no modifican el comportamiento funcional ni la persistencia en memoria.
 
 Siguiente fase: **Fase 7 — Video y auditoría final.** No se inició en este trabajo.
+
+## Fase 7 — Auditoría final y videotutorial
+
+### Ajustes de legibilidad y fondo
+
+Se aumentaron de forma selectiva la tipografía, el interlineado y el espacio de los datos de reserva, acciones, estados, métricas, textos secundarios, formularios y Validation Lab. No se aplicó zoom global y se conservaron el grid, las tarjetas, el modal y la composición existente.
+
+Las capas ambientales se ampliaron y suavizaron con gradientes radiales y blur para integrar negro, violeta, azul, rojo y cian sin límites rectangulares. También se retiró el fondo aislado que rodeaba la composición de una sola reserva; el planeta y sus anillos permanecen detrás de la tarjeta, sin cubrir controles.
+
+El Validation Lab se identificó como **Demostración académica · Prueba manual aislada** y se añadió un acceso directo desde la sección de reservas. Así queda disponible durante la exposición sin confundirse con una función habitual del CRUD.
+
+### Auditoría contra la rúbrica
+
+- **Diseño del CRUD — 20 pts:** crear, listar, editar, eliminar y cambiar estado funcionan sobre reservas en memoria; `validarReserva()` aporta una unidad relevante al flujo de crear y editar.
+- **Aislamiento — 35 pts:** la unidad no importa ni usa CRUD, DOM, base de datos, API o almacenamiento. La prueba manual importa únicamente `validarReserva.js`.
+- **Entradas / salidas — 25 pts:** se muestran entrada, esperado, obtenido y PASS/FAIL para un caso válido, cinco escenarios inválidos y errores simultáneos; las excepciones se convierten en FAIL controlado.
+- **Video y equipo — 20 pts:** el recorrido y el guion privado quedaron preparados para una grabación menor a diez minutos y una participación aproximadamente equilibrada. El cumplimiento final de este punto depende de realizar la grabación con esas condiciones.
+
+### Recorrido final comprobado
+
+Se recorrieron el dashboard, la creación válida, la validación de campos vacíos, la edición, el cambio de estado, el diálogo de eliminación, el acceso al Validation Lab, un caso válido, un caso inválido y la ejecución de los seis casos. La consola permaneció sin errores relevantes y no se detectó scroll horizontal ni contenido cortado en 1366×768 y 1440×900.
+
+### Pruebas, build y estado final
+
+- `pnpm test:validation`: 6/6 casos PASS.
+- `pnpm build`: compilación de producción completada.
+- Prueba modular del CRUD: crear, editar, cambiar estado y eliminar completados.
+- `GUION_VIDEO.md` no fue modificado. El guion final privado se preparó fuera del repositorio y no se incluyó en Git.
+
+### Archivos modificados
+
+- `index.html`: identificación y acceso directo al laboratorio académico.
+- `src/styles.css`: legibilidad, continuidad del fondo y pulido final de la composición.
+- `README.md`: auditoría y estado final del proyecto.
+
+### Estado final
+
+Fase 7 completada. NOVA BOOKING queda listo para la grabación y entrega; no se crea una fase posterior.
 
 ## 9. Auditoría de Fase 0
 
