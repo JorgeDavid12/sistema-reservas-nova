@@ -2,7 +2,7 @@
 
 Mini sistema CRUD de reservas desarrollado como práctica de pruebas unitarias manuales y aislamiento de lógica dentro de Aseguramiento de la Calidad de Software.
 
-**Estado actual:** Fase 3 completada. Sistema visual base con dashboard bento oscuro. Entorno configurado con pnpm. Repositorio público publicado en [GitHub](https://github.com/JorgeDavid12/sistema-reservas-nova), rama `main`. CRUD funcional y unidad de validación integrada. Prueba manual formal pendiente para fases posteriores.
+**Estado actual:** Fase 3 completada y corregida: dashboard bento con iluminación multicolor, cristal visible, figuras CSS y partículas interactivas. Entorno configurado con pnpm. Repositorio público publicado en [GitHub](https://github.com/JorgeDavid12/sistema-reservas-nova), rama `main`. CRUD funcional y unidad de validación integrada. Prueba manual formal pendiente para fases posteriores.
 
 | Quiero... | Ir a |
 | --- | --- |
@@ -95,9 +95,10 @@ nova-booking/
 | `datos/salas.js` | Cuatro salas y sus capacidades | Catálogo estático sin efectos externos |
 | `pruebas/pruebaValidarReserva.js` | Pruebas aisladas futuras | Reservado, sin modificaciones |
 | `ui/reservasVista.js` | Tarjetas, selectores, contadores y mensajes de error | Renderizado con datos recibidos por parámetro |
-| `ui/interactions.js`, `ui/particles.js` | Efectos visuales futuros | Reservados, sin modificaciones |
+| `ui/interactions.js` | Entrada visual independiente desde index.html; iluminación al cursor | Activo, sin acceso al CRUD ni a validación |
+| `ui/particles.js` | Canvas decorativo con movimiento y reacción al cursor | 52 partículas, dibujo limitado a 30 FPS y pausa por visibilidad |
 | `main.js` | Recoge datos, añade capacidad temporal y valida antes de Crear/Editar | Coordina validación, CRUD y presentación |
-| `styles.css` | Variables visuales, bento, tarjetas compactas, controles, estados y foco | Base visual Fase 3; microinteracciones CSS |
+| `styles.css` | Variables visuales, bento, cristal, geometría, controles, estados y foco | Fase 3 corregida; luces ambientales y microinteracciones |
 | `index.html` | Header con acción principal, resumen bento, estado vacío y diálogos | IDs, controles y validación conservados |
 
 La unidad no importa módulos ni conoce la interfaz o el CRUD. El catálogo está en `datos/salas.js`; main obtiene la capacidad y la entrega como contexto de entrada. La capacidad se aplica al validar y no se almacena. El CRUD conserva sus comprobaciones técnicas, sin duplicar reglas de negocio.
@@ -190,7 +191,7 @@ Si PowerShell bloquea el wrapper pnpm.ps1 por su política de ejecución, puede 
 | Fase 0 | ✅ Completada | Preparación y arquitectura | Base preparada, pnpm configurado, arquitectura verificada y repositorio público publicado |
 | Fase 1 | ✅ Completada | CRUD funcional | Crear, listar, editar, eliminar y cambiar estado en memoria; revisión funcional y responsive realizada |
 | Fase 2 | ✅ Completada | Unidad de validación | Función pura integrada en Crear/Editar; errores por campo y repositorio renombrado |
-| Fase 3 | ✅ Completada | Sistema visual base | Identidad oscura, bento asimétrico, tarjetas y formularios unificados; revisión en laptop |
+| Fase 3 | ✅ Completada | Sistema visual base | Bento reforzado con gradientes, cristal, figuras y primera versión de partículas; revisión en laptop |
 | Fase 4 | ⏳ Pendiente | Glassmorphism y figuras | Pendiente |
 | Fase 5 | ⏳ Pendiente | Partículas e interacciones | Pendiente |
 | Fase 6 | ⏳ Pendiente | Validation Lab y pruebas | Pendiente |
@@ -477,6 +478,8 @@ Fase 3: sistema visual base para laptop. La suite manual formal, Validation Lab 
 
 ## Fase 3 — Sistema visual base
 
+La entrada inicial se conserva como antecedente. La corrección autorizada posteriormente y el estado vigente se registran al final de esta fase.
+
 ### Objetivo
 
 Rediseñar la identidad, composición y jerarquía del dashboard exclusivamente desde HTML y CSS, conservando toda la lógica implementada.
@@ -520,6 +523,29 @@ Fase 3 completada. Base visual coherente y lista para profundizar su acabado; l�
 ### Pendiente para Fase 4
 
 Cristal más evidente, profundidad, luces detrás del cristal y composición decorativa. Partículas y otras interacciones avanzadas permanecen para su fase correspondiente. No se avanzó automáticamente.
+
+### Corrección — Dirección visual aprobada
+
+**Objetivo y antecedente.** La primera versión resultó demasiado sobria. Se reforzó la referencia tipo Decimal: luces multicolor detrás del contenido, geometría abstracta y superficies de cristal reconocibles. El usuario autorizó expresamente incorporar una primera versión de partículas y glassmorphism dentro de esta corrección de Fase 3; Fases 4 y 5 continúan pendientes.
+
+**Cambios visuales.** Fondo negro con luces violeta, azul eléctrico, magenta, coral y cian. Esfera orbital en el hero; esfera, estrella, anillo y figura facetada en el bento. Formas parcialmente detrás de los paneles, transparencia, backdrop-filter, reflejos interiores y bordes luminosos. Se conserva la distribución: total a la izquierda, pendientes/canceladas al centro y confirmadas a la derecha. Tarjetas compactas y ambos diálogos comparten el acabado; los errores mantienen su contraste rojo.
+
+**Interacción y decisiones.** Canvas decorativo de 52 partículas con movimiento lento, desplazamiento y conexiones cerca del cursor. Dibujo limitado a 30 FPS, resolución limitada a 2×, pausa al ocultar la pestaña y estado estático con movimiento reducido. Los brillos de tarjetas usan listeners pasivos y requestAnimationFrame. Las decoraciones no reciben clics y están ocultas al árbol de accesibilidad. Sin imágenes externas ni dependencias nuevas. Los módulos visuales no importan ni modifican datos del sistema.
+
+**Archivos modificados.** Cinco archivos existentes: `index.html`, `src/styles.css`, `src/ui/interactions.js`, `src/ui/particles.js` y `README.md`. Los módulos visuales antes reservados quedan activos mediante una entrada separada en index.html. `main.js`, CRUD, validación, catálogo, renderizado funcional, dependencias y lockfile permanecen sin cambios, confirmado mediante Git.
+
+**Revisión realizada.** Navegador de laptop a 1366×768, sin auditoría móvil/tablet:
+
+- Gradientes y figuras visibles; cristal que deja percibir los colores detrás del panel, incluido el formulario.
+- Partículas visibles en capturas sucesivas, con conexiones cerca del cursor durante la interacción.
+- Estado vacío, reserva creada, edición conservando `reserva-1`, cambio a Confirmada con contadores correctos y eliminación hasta volver a cero.
+- Envío vacío: seis mensajes por campo y resumen legibles; corrección de datos y guardado comprobados.
+- Sin desbordamiento horizontal del documento ni controles inaccesibles en la revisión. No se realizó un perfil de rendimiento ni una nueva captura de registros de consola en esta corrección.
+- `pnpm.cmd build` completado con Vite 8.3.0; `git diff --check` sin errores de espacios. La aplicación se revisó con el servidor Vite existente; intentar iniciar otro en el mismo puerto devolvió «Port 5174 is already in use» y se reutilizó el ya activo.
+
+**Problema corregido.** Una esfera sobresalía sobre parte del mensaje de confirmación. Se redujo su altura y se ajustaron separación y orden de capas; el mensaje se volvió a comprobar completo después de cambiar estado.
+
+**Estado final.** Corrección visual de Fase 3 completada. CRUD, validaciones, datos en memoria y eventos funcionales conservados. El historial anterior permanece intacto. Para Fase 4 queda profundizar y afinar la composición de cristal y figuras sobre esta base; Fase 5 podrá evolucionar las partículas. No se inicia ninguna de ellas automáticamente.
 
 ## 9. Auditoría de Fase 0
 
